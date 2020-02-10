@@ -34,7 +34,7 @@ function show(el) {
 
 const r = new Resumable({
     target: '/upload',
-    chunkSize: 2*1024*1024,
+    chunkSize: 4*1024*1024,
     simultaneousUploads: 4,
     throttleProgressCallbacks: 1,
     generateUniqueIdentifier: generateId
@@ -84,7 +84,7 @@ if(!r.support) {
 
         // Add file identifier to uploading files
         nowUploading.push(file.uniqueIdentifier);
-
+        console.log(file.uniqueIdentifier);
         // Show progress pabr
         show(resumableProgress);
         show(resumableList);
