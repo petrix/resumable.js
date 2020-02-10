@@ -6,15 +6,15 @@ function generateId(file){
         type: "get",
         url: "/fileid?filename=" + encodeURI(file.name),
         data: "data",
-        dataType: "dataType",
+        dataType: "text",
         success: function (response) {
             return response;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){
-            // alert('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText);
+            console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
         }
     });
-
+    return ret;
 }
 
 var r = new Resumable({
