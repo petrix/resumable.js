@@ -20,7 +20,7 @@ var t0, t1;
 var r = new Resumable({
     target:'/upload',
     chunkSize:4*1024*1024,
-    simultaneousUploads:10,
+    simultaneousUploads:5,
     // testChunks:false,
     throttleProgressCallbacks:1,
     generateUniqueIdentifier: generateId
