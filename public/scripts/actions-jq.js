@@ -72,7 +72,7 @@ if(!r.support) {
     });
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
-        $('.resumable-file-name').html('<a href="/statics/'+file.fileName+'">'+file.fileName+'</a>')
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html('<a href="/statics/'+file.fileName+'">'+file.fileName+'</a>')
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;        

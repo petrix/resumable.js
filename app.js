@@ -23,17 +23,17 @@ require('./routes')(app);
 // });
 
 // retrieve file id. invoke with /fileid?filename=my-file.jpg
-app.get('/fileid', function(req, res){
-  if(!req.query.filename){
-    return res.status(500).end('query parameter missing');
-  }
-  // create md5 hash from filename
-  res.end(
-    crypto.createHash('md5')
-    .update(req.query.filename)
-    .digest('hex')
-  );
-});
+// app.get('/fileid', function(req, res){
+//   if(!req.query.filename){
+//     return res.status(500).end('query parameter missing');
+//   }
+//   // create md5 hash from filename
+//   res.end(
+//     crypto.createHash('md5')
+//     .update(req.query.filename)
+//     .digest('hex')
+//   );
+// });
 
 app.get('/resumable.js', function (req, res) {
   var fs = require('fs');

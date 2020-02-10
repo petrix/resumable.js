@@ -19,7 +19,17 @@ exports.saveFile = function(fileToUpload, filePath){
     fs.writeFileSync(filePath, fileBuffer);
     return filePath;
 };
+////////////////
+exports.readFile = function(filePath){
 
+    fs.readdir(filePath, (err, files) => {
+        files.forEach(file => {
+          console.log(file);
+          return file;
+        });
+      });
+};
+////////////////
 exports.clearFolder = function (dirName, filterArray=[]) {
 
     const files = fs.readdirSync(dirName);

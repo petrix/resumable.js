@@ -3,7 +3,10 @@ const fs = require('fs');
 const Config = require('../libs/config');
 const fileUpload = require('../libs/fileUpload');
 const upDir = fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]);
+// const upDir = fileUpload.getFullPath(Config.dirs.uploadDir);
 const resumable = require('../libs/resumableNode')(upDir);
+console.log(fileUpload.readFile(upDir));
+// fileUpload.readFile(upDir)
 const crypto = require('crypto');
 
 exports.get = function(req, res){
