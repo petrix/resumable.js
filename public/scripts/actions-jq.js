@@ -16,7 +16,7 @@ function generateId(file){
     });
     return ret;
 }
-
+var t0, t1;
 var r = new Resumable({
     target:'/upload',
     chunkSize:4*1024*1024,
@@ -57,6 +57,8 @@ if(!r.support) {
         $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
         // Actually start the upload
+        t0 = performance.now();
+        $('.performance').html('measuring...');
         r.upload();
     });
     r.on('pause', function(){
@@ -72,6 +74,12 @@ if(!r.support) {
         // Reflect that the file upload has completed
         $('.resumable-file-name').html('<a href="/statics/'+file.fileName+'">'+file.fileName+'</a>')
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
+        t1 = performance.now();
+        var result = t1 - t0;        
+        console.log(result);
+
+        // var result = performance.now() - performance;
+        $('.performance-result').html(result);
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
