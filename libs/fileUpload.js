@@ -1,36 +1,32 @@
-
 const fs = require('fs');
 const path = require('path');
 
-exports.getFullPath = function(_path) {
+exports.getFullPath = function (_path) {
 
     _path = [path.dirname(require.main.filename)].concat(_path);
     return (path.join.apply(null, _path));
 };
 
-exports.makeDirectory = function(dirName){
+exports.makeDirectory = function (dirName) {
 
-    fs.mkdirSync(dirName, { recursive: true });
+    fs.mkdirSync(dirName, {
+        recursive: true
+    });
 };
 
-exports.saveFile = function(fileToUpload, filePath){
+exports.saveFile = function (fileToUpload, filePath) {
 
     const fileBuffer = fs.readFileSync(fileToUpload.path);
     fs.writeFileSync(filePath, fileBuffer);
     return filePath;
 };
 ////////////////
-exports.readFile = function(filePath){
-
-    fs.readdir(filePath, (err, files) => {
-        files.forEach(file => {
-          console.log(file);
-          return file;
-        });
-      });
+exports.readFile = function (filePath) {
+    const files = fs.readdirSync(filePath, fileArray = []);
+    return files;
 };
 ////////////////
-exports.clearFolder = function (dirName, filterArray=[]) {
+exports.clearFolder = function (dirName, filterArray = []) {
 
     const files = fs.readdirSync(dirName);
 

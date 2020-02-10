@@ -4,7 +4,7 @@ var fs = require('fs'),
     Stream = require('stream').Stream;
 
 module.exports = resumable = function (temporaryFolder) {
-    console.log(temporaryFolder)
+    // console.log(temporaryFolder)
     var $ = this;
     $.temporaryFolder = temporaryFolder;
     $.maxFileSize = null;
@@ -86,7 +86,7 @@ module.exports = resumable = function (temporaryFolder) {
         var totalSize = req.param('resumableTotalSize', 0);
         var identifier = req.param('resumableIdentifier', "");
         var filename = req.param('resumableFilename', "");
-        console.log('identifier',identifier);
+        // console.log('identifier',identifier);
         if (validateRequest(chunkNumber, chunkSize, totalSize, identifier, filename) == 'valid') {
             var chunkFilename = getChunkFilename(chunkNumber, identifier);
             fs.exists(chunkFilename, function (exists) {
@@ -149,7 +149,7 @@ module.exports = resumable = function (temporaryFolder) {
                             callback('partly_done', filename, original_filename, identifier);
                         }
                     });
-                                    console.log(currentTestChunk,numberOfChunks)
+                                    // console.log(currentTestChunk,numberOfChunks)
 
                 }
                 testChunkExists();
