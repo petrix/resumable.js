@@ -24,6 +24,26 @@ module.exports = resumable = function(temporaryFolder){
     return path.join($.temporaryFolder, './resumable-'+identifier+'.'+chunkNumber);
   }
 
+  var moveFile = function (oldpath, newpath, callback) {
+
+    fs.readFile(oldpath, function (err, data) {
+        if (err) callback(err);
+        console.log('File read!');
+
+        // Write the file
+        fs.writeFile(newpath, data, function (err) {
+            if (err) callback(err);
+            console.log('File written!');
+            // Delete the file
+            fs.unlink(oldpath, function (err) {
+                if (err) callback(err);
+                console.log('File deleted!');
+                callback();
+            });
+        });
+    });
+};
+
   var validateRequest = function(chunkNumber, chunkSize, totalSize, identifier, filename, fileSize){
     // Clean up the identifier
     identifier = cleanIdentifier(identifier);
@@ -109,8 +129,8 @@ module.exports = resumable = function(temporaryFolder){
       var chunkFilename = getChunkFilename(chunkNumber, identifier);
 
       // Save the chunk (TODO: OVERWRITE)
-      fs.rename(files[$.fileParameterName].path, chunkFilename, function(){
-
+      // fs.rename(files[$.fileParameterName].path, chunkFilename, function(){
+       moveFile(files[$.fileParameterName].path, chunkFilename, function (err) {
         // Do we have all the chunks?
         var currentTestChunk = 1;
         var numberOfChunks = Math.max(Math.floor(totalSize/(chunkSize*1.0)), 1);
@@ -119,20 +139,20 @@ module.exports = resumable = function(temporaryFolder){
                 if(exists){
                   currentTestChunk++;
                   if(currentTestChunk>numberOfChunks) {
-                    callback('done', filename, original_filename, identifier);
+                    callback('done', filename, original_filename, identifier, chunkNumber, numberOfChunks);
                   } else {
                     // Recursion
                     testChunkExists();
                   }
                 } else {
-                  callback('partly_done', filename, original_filename, identifier);
+                  callback('partly_done', filename, original_filename, identifier, chunkNumber, numberOfChunks);
                 }
               });
             }
         testChunkExists();
       });
     } else {
-          callback(validation, filename, original_filename, identifier);
+          callback(validation, filename, original_filename, identifier, chunkNumber, numberOfChunks);
     }
   }
 
