@@ -19,7 +19,7 @@ function generateId(file){
 var t0, t1;
 var r = new Resumable({
     target:'/upload',
-    chunkSize:2*1024*1024,
+    chunkSize:4*1024*1024,
     simultaneousUploads:4,
     // testChunks:false,
     throttleProgressCallbacks:1,
