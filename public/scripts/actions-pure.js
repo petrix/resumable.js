@@ -34,8 +34,8 @@ function show(el) {
 
 const r = new Resumable({
     target: '/upload',
-    chunkSize: 4*1024*1024,
-    simultaneousUploads: 10,
+    chunkSize: 2*1024*1024,
+    simultaneousUploads: 4,
     throttleProgressCallbacks: 1,
     generateUniqueIdentifier: generateId
 });
