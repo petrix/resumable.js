@@ -1,14 +1,27 @@
 
 function generateId(file){
     // generate id by asynchronously calling express endpoint
-    return $.get("/fileid?filename=" + encodeURI(file.name));
+    // var ret = $.get("/fileid?filename=" + encodeURI(file.name));
+    var ret = $.ajax({
+        type: "get",
+        url: "/fileid?filename=" + encodeURI(file.name),
+        data: "data",
+        dataType: "dataType",
+        success: function (response) {
+            return response;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            // alert('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText);
+        }
+    });
+
 }
 
 var r = new Resumable({
     target:'/upload',
     chunkSize:4*1024*1024,
     simultaneousUploads:10,
-    testChunks:false,
+    // testChunks:false,
     throttleProgressCallbacks:1,
     generateUniqueIdentifier: generateId
 });
@@ -21,6 +34,7 @@ if(!r.support) {
     dropElement.show();
     r.assignDrop(dropElement[0]);
     r.assignBrowse($('.resumable-browse')[0]);
+    // r.assignBrowse($('.resumable-browse'));
 
     dropElement.on("dragenter", function () {
         $(this).addClass('resumable-dragover');
@@ -56,6 +70,7 @@ if(!r.support) {
     });
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
+        $('.resumable-file-name').html('<a href="/statics/'+file.fileName+'">'+file.fileName+'</a>')
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
     });
     r.on('fileError', function(file, message){

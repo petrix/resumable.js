@@ -21,7 +21,6 @@ function reqAjax(url, method='GET', data='') {
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.send(data);
     return xhr;
-    if (err) console.log(err);
 }
 
 function hide(el) {
@@ -35,7 +34,7 @@ function show(el) {
 const r = new Resumable({
     target: '/upload',
     chunkSize: 4*1024*1024,
-    simultaneousUploads: 4,
+    simultaneousUploads: 10,
     throttleProgressCallbacks: 1,
     generateUniqueIdentifier: generateId
 });

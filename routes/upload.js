@@ -12,7 +12,8 @@ exports.get = function(req, res){
         case '/upload':
             // Handle status checks on chunks through Resumable.js
             resumable.get(req, function(status, filename, original_filename, identifier){
-                res.send((status === 'found' ? 200 : 404), status);
+                // res.send((status === 'found' ? 200 : 404), status);
+                res.send((status === 'found' ? 200 : 300), status);
             });
             break;
         case '/fileid':
