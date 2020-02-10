@@ -1,8 +1,7 @@
 
 function generateId(file){
     // generate id by asynchronously calling express endpoint
-    var request = $.get("/fileid?filename=" + encodeURI(file.name));
-    return request;
+    return $.get("/fileid?filename=" + encodeURI(file.name));
 }
 
 var r = new Resumable({
@@ -17,7 +16,6 @@ var r = new Resumable({
 if(!r.support) {
     $('.resumable-error').show();
 } else {
-
     // Show a place for dropping/selecting files
     var dropElement = $('.resumable-drop');
     dropElement.show();

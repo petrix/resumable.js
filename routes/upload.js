@@ -31,31 +31,35 @@ exports.get = function(req, res){
 };
 
 exports.post = function(req, res){
-
+        console.log(fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]));
     if (req.body.action === 'cancelUpload') {
 
         let filterArray = req.body.nowUploading ? req.body.nowUploading.split(',') : [];
         filterArray = filterArray.map(upl => {
-            return new RegExp(`^resumable-${upl}.*`);
+            return new RegExp(`^res-${upl}.*`);
         });
+
         fileUpload.clearFolder(fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]), filterArray);
 
     } else {
         resumable.post(req, function(status, filename, original_filename, identifier){
 
-            console.log('POST', status, original_filename, identifier);
+            // console.log('POST', status, original_filename, identifier);
 
             if (status === 'done') {
                 //when all chunks uploaded, then createWriteStream to /files folder with filename
                 const stream = fs.createWriteStream(fileUpload.getFullPath([Config.dirs.filesDir, filename]));
 
                 const onDone = function(identifier) {
+                    // console.log(stream);
                     resumable.clean(identifier);
                 };
                 //stitches the file chunks back together to create the original file.
                 resumable.write(identifier, stream, {onDone: onDone});
+
             }
             try {
+                // console.log(status);
                 res.send(status);
             } catch (err) {
                 console.error(err);

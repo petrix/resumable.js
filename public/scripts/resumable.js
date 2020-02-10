@@ -48,12 +48,10 @@
       fileNameParameterName: 'resumableFilename',
       relativePathParameterName: 'resumableRelativePath',
       totalChunksParameterName: 'resumableTotalChunks',
-      dragOverClass: 'dragover',
       throttleProgressCallbacks: 0.5,
       query:{},
       headers:{},
       preprocess:null,
-      preprocessFile:null,
       method:'multipart',
       uploadMethod: 'POST',
       testMethod: 'GET',
@@ -66,7 +64,7 @@
       getTarget:null,
       maxChunkRetries:100,
       chunkRetryInterval:undefined,
-      permanentErrors:[400, 401, 403, 404, 409, 415, 500, 501],
+      permanentErrors:[400, 404, 415, 500, 501],
       maxFiles:undefined,
       withCredentials:false,
       xhrTimeout:0,
@@ -115,13 +113,6 @@
         else { return $opt.defaults[o]; }
       }
     };
-    $.indexOf = function(array, obj) {
-    	if (array.indexOf) { return array.indexOf(obj); }     
-    	for (var i = 0; i < array.length; i++) {
-            if (array[i] === obj) { return i; }
-        }
-        return -1;
-    }
 
     // EVENTS
     // catchAll(event, ...)
@@ -170,7 +161,7 @@
         if(typeof custom === 'function') {
           return custom(file, event);
         }
-        var relativePath = file.webkitRelativePath||file.relativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
+        var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
         var size = file.size;
         return(size + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
       },
@@ -212,40 +203,24 @@
         var separator = target.indexOf('?') < 0 ? '?' : '&';
         var joinedParams = params.join('&');
 
-        if (joinedParams) target = target + separator + joinedParams;
-
-        return target;
+        return target + separator + joinedParams;
       }
     };
 
-    var onDrop = function(e){
-      e.currentTarget.classList.remove($.getOpt('dragOverClass'));
-      $h.stopEvent(e);
+    var onDrop = function(event){
+      $h.stopEvent(event);
 
       //handle dropped things as items if we can (this lets us deal with folders nicer in some cases)
-      if (e.dataTransfer && e.dataTransfer.items) {
-        loadFiles(e.dataTransfer.items, e);
+      if (event.dataTransfer && event.dataTransfer.items) {
+        loadFiles(event.dataTransfer.items, event);
       }
       //else handle them as files
-      else if (e.dataTransfer && e.dataTransfer.files) {
-        loadFiles(e.dataTransfer.files, e);
+      else if (event.dataTransfer && event.dataTransfer.files) {
+        loadFiles(event.dataTransfer.files, event);
       }
     };
-    var onDragLeave = function(e){
-      e.currentTarget.classList.remove($.getOpt('dragOverClass'));
-    };
-    var onDragOverEnter = function(e) {
+    var preventDefault = function(e) {
       e.preventDefault();
-      var dt = e.dataTransfer;
-      if ($.indexOf(dt.types, "Files") >= 0) { // only for file drop
-        e.stopPropagation();
-        dt.dropEffect = "copy";
-        dt.effectAllowed = "copy";
-        e.currentTarget.classList.add($.getOpt('dragOverClass'));
-      } else { // not work on IE/Edge....
-        dt.dropEffect = "none";
-        dt.effectAllowed = "none";
-      }
     };
 
     /**
@@ -317,27 +292,20 @@
      */
     function processDirectory (directory, path, items, cb) {
       var dirReader = directory.createReader();
-      var allEntries = [];
-
-      function readEntries () {
-        dirReader.readEntries(function(entries){
-          if (entries.length) {
-            allEntries = allEntries.concat(entries);
-            return readEntries();
-          }
-
-          // process all conversion callbacks, finally invoke own one
-          processCallbacks(
-            allEntries.map(function(entry){
-              // bind all properties except for callback
-              return processItem.bind(null, entry, path, items);
-            }),
-            cb
-          );
-        });
-      }
-
-      readEntries();
+      dirReader.readEntries(function(entries){
+        if(!entries.length){
+          // empty directory, skip
+          return cb();
+        }
+        // process all conversion callbacks, finally invoke own one
+        processCallbacks(
+          entries.map(function(entry){
+            // bind all properties except for callback
+            return processItem.bind(null, entry, path, items);
+          }),
+          cb
+        );
+      });
     }
 
     /**
@@ -354,11 +322,7 @@
       processCallbacks(
           Array.prototype.map.call(items, function(item){
             // bind all properties except for callback
-            var entry = item;
-            if('function' === typeof item.webkitGetAsEntry){
-              entry = item.webkitGetAsEntry();
-            }
-            return processItem.bind(null, entry, "", files);
+            return processItem.bind(null, item, "", files);
           }),
           function(){
             if(files.length){
@@ -397,40 +361,28 @@
       };
       $h.each(fileList, function(file){
         var fileName = file.name;
-        var fileType = file.type; // e.g video/mp4
         if(o.fileType.length > 0){
           var fileTypeFound = false;
           for(var index in o.fileType){
-            // For good behaviour we do some inital sanitizing. Remove spaces and lowercase all
-            o.fileType[index] = o.fileType[index].replace(/\s/g, '').toLowerCase();
-
-            // Allowing for both [extension, .extension, mime/type, mime/*]
-            var extension = ((o.fileType[index].match(/^[^.][^/]+$/)) ? '.' : '') + o.fileType[index];
-
-            if ((fileName.substr(-1 * extension.length).toLowerCase() === extension) ||
-              //If MIME type, check for wildcard or if extension matches the files tiletype
-              (extension.indexOf('/') !== -1 && (
-                (extension.indexOf('*') !== -1 && fileType.substr(0, extension.indexOf('*')) === extension.substr(0, extension.indexOf('*'))) ||
-                fileType === extension
-              ))
-            ){
+            var extension = '.' + o.fileType[index];
+			if(fileName.toLowerCase().indexOf(extension.toLowerCase(), fileName.length - extension.length) !== -1){
               fileTypeFound = true;
               break;
             }
           }
           if (!fileTypeFound) {
             o.fileTypeErrorCallback(file, errorCount++);
-            return true;
+            return false;
           }
         }
 
         if (typeof(o.minFileSize)!=='undefined' && file.size<o.minFileSize) {
           o.minFileSizeErrorCallback(file, errorCount++);
-          return true;
+          return false;
         }
         if (typeof(o.maxFileSize)!=='undefined' && file.size>o.maxFileSize) {
           o.maxFileSizeErrorCallback(file, errorCount++);
-          return true;
+          return false;
         }
 
         function addFile(uniqueIdentifier){
@@ -485,7 +437,6 @@
       $.uniqueIdentifier = uniqueIdentifier;
       $._pause = false;
       $.container = '';
-      $.preprocessState = 0; // 0 = unprocessed, 1 = processing, 2 = finished
       var _error = uniqueIdentifier !== undefined;
 
       // Callback when something happens within the chunk
@@ -496,15 +447,14 @@
           $.resumableObj.fire('fileProgress', $, message);
           break;
         case 'error':
-          // $.abort();
-          $.cancel();
+          $.abort();
           _error = true;
           $.chunks = [];
           $.resumableObj.fire('fileError', $, message);
           break;
         case 'success':
           if(_error) return;
-          $.resumableObj.fire('fileProgress', $, message); // it's at least progress
+          $.resumableObj.fire('fileProgress', $); // it's at least progress
           if($.isComplete()) {
             $.resumableObj.fire('fileSuccess', $, message);
           }
@@ -595,9 +545,6 @@
       };
       $.isComplete = function(){
         var outstanding = false;
-        if ($.preprocessState === 1) {
-          return(false);
-        }
         $h.each($.chunks, function(chunk){
           var status = chunk.status();
           if(status=='pending' || status=='uploading' || chunk.preprocessState === 1) {
@@ -617,39 +564,7 @@
       $.isPaused = function() {
         return $._pause;
       };
-      $.preprocessFinished = function(){
-        $.preprocessState = 2;
-        $.upload();
-      };
-      $.upload = function () {
-        var found = false;
-        if ($.isPaused() === false) {
-          var preprocess = $.getOpt('preprocessFile');
-          if(typeof preprocess === 'function') {
-            switch($.preprocessState) {
-            case 0: $.preprocessState = 1; preprocess($); return(true);
-            case 1: return(true);
-            case 2: break;
-            }
-          }
-          $h.each($.chunks, function (chunk) {
-            if (chunk.status() == 'pending' && chunk.preprocessState !== 1) {
-              chunk.send();
-              found = true;
-              return(false);
-            }
-          });
-        }
-        return(found);
-      }
-      $.markChunksCompleted = function (chunkNumber) {
-        if (!$.chunks || $.chunks.length <= chunkNumber) {
-            return;
-        }
-        for (var num = 0; num < chunkNumber; num++) {
-            $.chunks[num].markComplete = true;
-        }
-      };
+
 
       // Bootstrap and return
       $.resumableObj.fire('chunkingStart', $);
@@ -673,7 +588,6 @@
       $.retries = 0;
       $.pendingRetry = false;
       $.preprocessState = 0; // 0 = unprocessed, 1 = processing, 2 = finished
-      $.markComplete = false;
 
       // Computed properties
       var chunkSize = $.getOpt('chunkSize');
@@ -698,6 +612,8 @@
             $.callback(status, $.message());
             $.resumableObj.uploadNextChunk();
           } else {
+                    //  if (e) throw e;
+ 
             $.send();
           }
         };
@@ -891,9 +807,9 @@
           $.xhr.setRequestHeader(k, v);
         });
 
-        if ($.getOpt('chunkFormat') == 'blob') {
-            $.xhr.send(data);
-        }
+                if ($.getOpt('chunkFormat') == 'blob') {
+                    $.xhr.send(data);
+                }
       };
       $.abort = function(){
         // Abort and reset
@@ -906,8 +822,6 @@
           // if pending retry then that's effectively the same as actively uploading,
           // there might just be a slight delay before the retry starts
           return('uploading');
-        } else if($.markComplete) {
-          return 'success';
         } else if(!$.xhr) {
           return('pending');
         } else if($.xhr.readyState<4) {
@@ -918,7 +832,7 @@
             // HTTP 200, 201 (created)
             return('success');
           } else if($h.contains($.getOpt('permanentErrors'), $.xhr.status) || $.retries >= $.getOpt('maxChunkRetries')) {
-            // HTTP 400, 404, 409, 415, 500, 501 (permanent error)
+            // HTTP 415/500/501, permanent error
             return('error');
           } else {
             // this should never happen, but we'll reset and queue a retry
@@ -935,7 +849,7 @@
         if(typeof(relative)==='undefined') relative = false;
         var factor = (relative ? ($.endByte-$.startByte)/$.fileObjSize : 1);
         if($.pendingRetry) return(0);
-        if((!$.xhr || !$.xhr.status) && !$.markComplete) factor*=.95;
+        if(!$.xhr || !$.xhr.status) factor*=.95;
         var s = $.status();
         switch(s){
         case 'success':
@@ -975,7 +889,15 @@
 
       // Now, simply look for the next, best thing to upload
       $h.each($.files, function(file){
-        found = file.upload();
+        if(file.isPaused()===false){
+         $h.each(file.chunks, function(chunk){
+           if(chunk.status()=='pending' && chunk.preprocessState === 0) {
+             chunk.send();
+             found = true;
+             return(false);
+           }
+          });
+        }
         if(found) return(false);
       });
       if(found) return(true);
@@ -999,6 +921,7 @@
     // PUBLIC METHODS FOR RESUMABLE.JS
     $.assignBrowse = function(domNodes, isDirectory){
       if(typeof(domNodes.length)=='undefined') domNodes = [domNodes];
+
       $h.each(domNodes, function(domNode) {
         var input;
         if(domNode.tagName==='INPUT' && domNode.type==='file'){
@@ -1029,13 +952,7 @@
         }
         var fileTypes = $.getOpt('fileType');
         if (typeof (fileTypes) !== 'undefined' && fileTypes.length >= 1) {
-          input.setAttribute('accept', fileTypes.map(function (e) {
-            e = e.replace(/\s/g, '').toLowerCase();
-            if(e.match(/^[^.][^/]+$/)){
-              e = '.' + e;
-            }
-            return e;
-          }).join(','));
+          input.setAttribute('accept', fileTypes.map(function (e) { return '.' + e }).join(','));
         }
         else {
           input.removeAttribute('accept');
@@ -1054,9 +971,8 @@
       if(typeof(domNodes.length)=='undefined') domNodes = [domNodes];
 
       $h.each(domNodes, function(domNode) {
-        domNode.addEventListener('dragover', onDragOverEnter, false);
-        domNode.addEventListener('dragenter', onDragOverEnter, false);
-        domNode.addEventListener('dragleave', onDragLeave, false);
+        domNode.addEventListener('dragover', preventDefault, false);
+        domNode.addEventListener('dragenter', preventDefault, false);
         domNode.addEventListener('drop', onDrop, false);
       });
     };
@@ -1064,9 +980,8 @@
       if (typeof(domNodes.length) == 'undefined') domNodes = [domNodes];
 
       $h.each(domNodes, function(domNode) {
-        domNode.removeEventListener('dragover', onDragOverEnter);
-        domNode.removeEventListener('dragenter', onDragOverEnter);
-        domNode.removeEventListener('dragleave', onDragLeave);
+        domNode.removeEventListener('dragover', preventDefault);
+        domNode.removeEventListener('dragenter', preventDefault);
         domNode.removeEventListener('drop', onDrop);
       });
     };
@@ -1157,9 +1072,7 @@
 
   // Node.js-style export for Node and Component
   if (typeof module != 'undefined') {
-    // left here for backwards compatibility
     module.exports = Resumable;
-    module.exports.Resumable = Resumable;
   } else if (typeof define === "function" && define.amd) {
     // AMD/requirejs: Define the module
     define(function(){

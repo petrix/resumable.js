@@ -4,6 +4,7 @@ var fs = require('fs'),
     Stream = require('stream').Stream;
 
 module.exports = resumable = function (temporaryFolder) {
+    console.log(temporaryFolder)
     var $ = this;
     $.temporaryFolder = temporaryFolder;
     $.maxFileSize = null;
@@ -22,23 +23,19 @@ module.exports = resumable = function (temporaryFolder) {
         // Clean up the identifier
         identifier = cleanIdentifier(identifier);
         // What would the file name be?
-        return path.join($.temporaryFolder, './resumable-' + identifier + '.' + chunkNumber);
+        return path.join($.temporaryFolder, 'res-' + identifier + '.' + chunkNumber);
     }
 
     var moveFile = function (oldpath, newpath, callback) {
-        console.log('movFile',oldpath,newpath);
         fs.readFile(oldpath, function (err, data) {
-            if (err) callback(err);
-            // console.log('File read!');
+            // if (err) callback(err);
 
             // Write the file
             fs.writeFile(newpath, data, function (err) {
-                if (err) callback(err);
-                // console.log('File written!');
+                // if (err) callback(err);
                 // Delete the file
                 fs.unlink(oldpath, function (err) {
-                    if (err) callback(err);
-                    console.log('File deleted!');
+                    // if (err) callback(err);
                     callback();
                 });
             });
@@ -89,7 +86,7 @@ module.exports = resumable = function (temporaryFolder) {
         var totalSize = req.param('resumableTotalSize', 0);
         var identifier = req.param('resumableIdentifier', "");
         var filename = req.param('resumableFilename', "");
-        console.log(identifier);
+        console.log('identifier',identifier);
         if (validateRequest(chunkNumber, chunkSize, totalSize, identifier, filename) == 'valid') {
             var chunkFilename = getChunkFilename(chunkNumber, identifier);
             fs.exists(chunkFilename, function (exists) {
@@ -152,6 +149,8 @@ module.exports = resumable = function (temporaryFolder) {
                             callback('partly_done', filename, original_filename, identifier);
                         }
                     });
+                                    console.log(currentTestChunk,numberOfChunks)
+
                 }
                 testChunkExists();
             });
@@ -211,13 +210,11 @@ module.exports = resumable = function (temporaryFolder) {
 
             var chunkFilename = getChunkFilename(number, identifier);
 
-            //console.log('removing pipeChunkRm ', number, 'chunkFilename', chunkFilename);
             fs.exists(chunkFilename, function (exists) {
                 if (exists) {
 
-                    // console.log('exist removing ', chunkFilename);
                     fs.unlink(chunkFilename, function (err) {
-                        if (err && options.onError) options.onError(err);
+                        // if (err && options.onError) options.onError(err);
                     });
 
                     pipeChunkRm(number + 1);
@@ -226,6 +223,8 @@ module.exports = resumable = function (temporaryFolder) {
 
                     if (options.onDone) options.onDone();
                     console.log('onDone');
+                                // callback('done', filename, original_filename, identifier);
+
                 }
             });
         }
