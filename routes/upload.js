@@ -6,8 +6,8 @@ const upDir = fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadD
 // const upDir = fileUpload.getFullPath(Config.dirs.uploadDir);
 const resumable = require('../libs/resumableNode')(upDir);
 const checkFolder = fileUpload.getFullPath([Config.dirs.filesDir]);
-console.log(upDir);
-console.log(fileUpload.readFile(checkFolder));
+// console.log(upDir);
+// console.log(fileUpload.readFile(checkFolder));
 // fileUpload.readFile(upDir)
 const crypto = require('crypto');
 
@@ -37,7 +37,7 @@ exports.get = function(req, res){
 };
 
 exports.post = function(req, res){
-        console.log(fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]));
+        // console.log(fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]));
     if (req.body.action === 'cancelUpload') {
 
         let filterArray = req.body.nowUploading ? req.body.nowUploading.split(',') : [];

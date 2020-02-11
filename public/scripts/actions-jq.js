@@ -8,13 +8,15 @@ function generateId(file){
         data: "data",
         dataType: "text",
         success: function (response) {
+            console.log('response',response);
             return response;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){
             console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
         }
     });
-    return ret;
+    // console.log('ret',ret)
+    // return ret;
 }
 var t0, t1;
 var r = new Resumable({
