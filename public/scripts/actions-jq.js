@@ -2,14 +2,14 @@
 function generateId(file){
     // generate id by asynchronously calling express endpoint
     // var ret = $.get("/fileid?filename=" + encodeURI(file.name));
-    var ret = $.ajax({
+    return ret = $.ajax({
         type: "get",
         url: "/fileid?filename=" + encodeURI(file.name),
         data: "data",
         dataType: "text",
         success: function (response) {
             console.log('response',response);
-            return response;
+            // return response;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){
             console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
