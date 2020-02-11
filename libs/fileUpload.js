@@ -29,7 +29,7 @@ exports.readFile = function (filePath) {
 exports.clearFolder = function (dirName, filterArray = []) {
 
     const files = fs.readdirSync(dirName);
-
+console.log(files)
     for (let file of files) {
 
         let deleteFile = false;
