@@ -2,46 +2,45 @@ const fs = require('fs');
 const Config = require('../libs/config');
 const fileUpload = require('../libs/fileUpload');
 const upDir = fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]);
-// const upDir = fileUpload.getFullPath(Config.dirs.uploadDir);
 const resumable = require('../libs/resumableNode')(upDir);
 const checkFolder = fileUpload.getFullPath([Config.dirs.filesDir]);
-// console.log(upDir);
-// console.log(fileUpload.readFile(checkFolder));
-// fileUpload.readFile(upDir)
 const crypto = require('crypto');
 
-function cryptoId (name){
+function cryptoId(name) {
     return crypto.createHash('sha256', Config.brand)
-    .update(name)
-    .digest('hex')
+        .update(name)
+        .digest('hex')
 }
 
 exports.get = function (req, res) {
-    // console.log(req.url.split('?')[0]);
 
     switch (req.url.split('?')[0]) {
+        case '/rmFile':
+
+            console.log('/rmFile', req.query.filename);
+            // res.send(fileUpload.readFile(checkFolder));
+            var fileId = cryptoId(req.query.filename);
+            try {
+                fileUpload.removeFile(req.query.filename, checkFolder);
+                res.send(fileId);
+            } catch (err) {
+                console.error(err);
+            }
+            break;
         case '/getfn':
 
-            // console.log(fileUpload.getFullPath(Config.dirs.filesDir));
-            // res.send(444);
+            res.send(fileUpload.readFileNames(checkFolder));
 
-            res.send(fileUpload.readFile(fileUpload.getFullPath(Config.dirs.filesDir)));
-            // res.send(req);
-            // Handle status checks on chunks through Resumable.js
-            // resumable.get(req, function (status, filename, original_filename, identifier) {
-                // res.send((status === 'found' ? 200 : 404), status);
-                // res.send((status === 'found' ? 200 : 300), status);
-            // });
             break;
         case '/upload':
             // Handle status checks on chunks through Resumable.js
             resumable.get(req, function (status, filename, original_filename, identifier) {
                 // res.send((status === 'found' ? 200 : 404), status);
-                res.send((status === 'found' ? 200 : 300), status);
+                // res.send((status === 'found' ? 200 : 300), status);
+                res.status(status).sendStatus(status === 'found' ? 200 : 300);
             });
             break;
         case '/fileid':
-            //   console.log(req.url.split('?')[0]);
             // retrieve file id. invoke with /fileid?filename=my-file.jpg
             if (!req.query.filename) {
                 return res.status(500).end('query parameter missing');

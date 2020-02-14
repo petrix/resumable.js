@@ -1,52 +1,71 @@
 function generateId(file) {
-    // generate id by asynchronously calling express endpoint
-    // var ret = $.get("/fileid?filename=" + encodeURI(file.name));
     var ret = $.ajax({
         type: "get",
         url: "/fileid?filename=" + encodeURI(file.name),
         data: "data",
         dataType: "text",
         success: function (response) {
-            // console.log('response', response);
-            // return response;
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
         }
     });
-    // console.log('ret', ret)
     return ret;
 }
-
-document.addEventListener("DOMContentLoaded", function(){
+function getId(fileName) {
+    var fnId = $.ajax({
+        type: "get",
+        async: false,
+        url: "/fileid?filename=" + encodeURI(fileName),
+        data: "data",
+        dataType: "text",
+        success: function (response) {
+            // console.log(response)
+            // return response;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
+        }
+        
+    });
+    return fnId.responseText;
+}
+document.addEventListener("DOMContentLoaded", function () {
     var getfn = $.ajax({
         type: "get",
         url: "/getfn",
+        // async: false,
         // url: "/upload",
         data: "data",
         dataType: "text",
         success: function (response) {
             response = JSON.parse(response);
-            // console.log('response', response);
-            for (let index = 0; index < response.length; index++) {
-                const element = response[index];
-
-                $('.resumable-list').append('<li class="resumable-file"><span class="resumable-file-name"></span> <a href="/statics/' + element + '">' + element + '</a>');
-                // $('.resumable-file .resumable-file-name').html('<a href="/statics/' + element + '">' + element + '</a>')
-        $('.resumable-progress, .resumable-list').show();
-
-           console.log(element);
-                            }
-
-          
-            // return response;
+            for (let ii = 0; ii < response.length; ii++) {
+                var fileID = getId(response[ii]);
+                // var element = response[ii];
+                $('.resumable-list').append('<li class="resumable-file-'+ fileID +'"><span class="resumable-file-name"> <a href="/statics/' + response[ii] + '">' + response[ii] + '</a></span><button class="remove '+fileID+'">X</button>');
+                $('.resumable-progress, .resumable-list').show();
+                // console.log(getId(response[ii]));
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
         }
     });
-    // console.log(getfn);
 });
+
+$('.resumable-list').on('click','button', function(){
+    var fileName = $(this).parent().children('span').children('a').attr('href').split('/')[2];
+    $.get('/rmFile?filename='+fileName, function(result){
+        console.log(result);
+        $(".resumable-file-"+result).remove();
+    });
+    // console.log(fileName);
+});
+
+
+
 
 var t0, t1;
 var r = new Resumable({
@@ -86,7 +105,7 @@ if (!r.support) {
         $('.resumable-progress .progress-resume-link').hide();
         $('.resumable-progress .progress-pause-link').show();
         // Add the file to the list
-        $('.resumable-list').append('<li class="resumable-file-' + file.uniqueIdentifier + '">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-list').append('<li class="resumable-file-' + file.uniqueIdentifier + '"><span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
         $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html(file.fileName);
         // Actually start the upload
         t0 = performance.now();
@@ -104,14 +123,14 @@ if (!r.support) {
     });
     r.on('fileSuccess', function (file, message) {
         // Reflect that the file upload has completed
-        $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html('<a href="/statics/' + file.fileName + '">' + file.fileName + '</a>')
-        $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
+        $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html('<a href="/statics/' + file.fileName + '">' + file.fileName + '</a>').parent().append('<button class="remove '+file.uniqueIdentifier+'">X</button>').children('.resumable-file-progress').remove();
+        // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;
         console.log(result);
 
         // var result = performance.now() - performance;
-        $('.performance-result').html(result);
+        $('.performance').html(result);
     });
     r.on('fileError', function (file, message) {
         // Reflect that the file upload has resulted in error
@@ -134,3 +153,7 @@ if (!r.support) {
         $('.resumable-progress .progress-pause-link').show();
     });
 }
+
+
+
+

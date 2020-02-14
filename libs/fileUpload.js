@@ -21,15 +21,26 @@ exports.saveFile = function (fileToUpload, filePath) {
     return filePath;
 };
 ////////////////
-exports.readFile = function (filePath) {
-    const files = fs.readdirSync(filePath, fileArray = []);
+exports.readFileNames = function (filePath) {
+    const files = fs.readdirSync(filePath);
+    for(let file of files){
+    }
+    return files;
+};
+exports.removeFile = function (fileName,filePath) {
+    const files = fs.readdirSync(filePath);
+    for(let file of files){
+        if(file === fileName){
+            fs.unlinkSync(path.join(filePath, file));
+
+        }
+    }
     return files;
 };
 ////////////////
 exports.clearFolder = function (dirName, filterArray = []) {
 
     const files = fs.readdirSync(dirName);
-console.log(files)
     for (let file of files) {
 
         let deleteFile = false;

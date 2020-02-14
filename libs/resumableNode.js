@@ -4,7 +4,6 @@ var fs = require('fs'),
     Stream = require('stream').Stream;
 
 module.exports = resumable = function (temporaryFolder) {
-    // console.log(temporaryFolder)
     var $ = this;
     $.temporaryFolder = temporaryFolder;
     $.maxFileSize = null;
@@ -81,12 +80,11 @@ module.exports = resumable = function (temporaryFolder) {
     //'found', filename, original_filename, identifier
     //'not_found', null, null, null
     $.get = function (req, callback) {
-        var chunkNumber = req.param('resumableChunkNumber', 0);
-        var chunkSize = req.param('resumableChunkSize', 0);
-        var totalSize = req.param('resumableTotalSize', 0);
-        var identifier = req.param('resumableIdentifier', "");
-        var filename = req.param('resumableFilename', "");
-        // console.log('identifier',identifier);
+        var chunkNumber = req.query.resumableChunkNumber = 0;
+        var chunkSize = req.query.resumableChunkSize = 0;
+        var totalSize = req.query.resumableTotalSize = 0;
+        var identifier = req.query.resumableIdentifier = '';
+        var filename = req.query.resumableFilename = '';
         if (validateRequest(chunkNumber, chunkSize, totalSize, identifier, filename) == 'valid') {
             var chunkFilename = getChunkFilename(chunkNumber, identifier);
             fs.exists(chunkFilename, function (exists) {
@@ -109,7 +107,6 @@ module.exports = resumable = function (temporaryFolder) {
 
         var fields = req.body;
         var files = req.files;
-
         var chunkNumber = fields['resumableChunkNumber'];
         var chunkSize = fields['resumableChunkSize'];
         var totalSize = fields['resumableTotalSize'];
@@ -159,20 +156,10 @@ module.exports = resumable = function (temporaryFolder) {
         }
     }
 
-
-    // Pipe chunks directly in to an existsing WritableStream
-    //   r.write(identifier, response);
-    //   r.write(identifier, response, {end:false});
-    //
-    //   var stream = fs.createWriteStream(filename);
-    //   r.write(identifier, stream);
-    //   stream.on('data', function(data){...});
-    //   stream.on('end', function(){...});
     $.write = function (identifier, writableStream, options) {
         options = options || {};
         options.end = (typeof options['end'] == 'undefined' ? true : options['end']);
 
-        // Iterate over each chunk
         var pipeChunk = function (number) {
 
             var chunkFilename = getChunkFilename(number, identifier);
@@ -193,6 +180,8 @@ module.exports = resumable = function (temporaryFolder) {
                     });
                 } else {
                     // When all the chunks have been piped, end the stream
+                                        console.log('write onDone', identifier);
+
                     if (options.end) writableStream.end();
                     if (options.onDone) options.onDone(identifier);
                 }
@@ -221,12 +210,14 @@ module.exports = resumable = function (temporaryFolder) {
 
                 } else {
 
-                    if (options.onDone) options.onDone();
-                    console.log('onDone');
                                 // callback('done', filename, original_filename, identifier);
 
                 }
+                                                if (options.onDone) options.onDone();
+                    // console.log('clean onDone',chunkFilename,number);
+
             });
+
         }
         pipeChunkRm(1);
     }

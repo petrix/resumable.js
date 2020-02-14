@@ -16,6 +16,7 @@ a {
     color: #465362;
     transition: .2s;
     cursor: pointer;
+
 }
 a:hover {
     color: #4196a4;
@@ -184,3 +185,19 @@ img, iframe {
 .is-error .uploader-item:hover, .is-active.is-error .uploader-item {border-color:#900;}
 .is-error .uploader-item:hover .uploader-item-title, .is-active.is-error .uploader-item .uploader-item-title {background-color:rgba(153,0,0,0.6);}
 .is-error .uploader-item-creating-thumbnail {display:none;}
+
+body{
+    display: flex;
+    align-items: center;
+}
+#frame{
+    width: 800px;
+}
+.resumable-list li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.resumable-list li a{
+    text-decoration: none;
+}
