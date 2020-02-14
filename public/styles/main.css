@@ -201,3 +201,8 @@ body{
 .resumable-list li a{
     text-decoration: none;
 }
+
+.resumable-list li button{
+    text-decoration: none;
+
+}

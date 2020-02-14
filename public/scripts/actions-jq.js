@@ -40,11 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
         data: "data",
         dataType: "text",
         success: function (response) {
-            response = JSON.parse(response);
+                        response = JSON.parse(response);
+                      console.log(response);
+
+  
             for (let ii = 0; ii < response.length; ii++) {
-                var fileID = getId(response[ii]);
+                var fileName = response[ii].split('#')[0];
+                var fileID = getId(fileName);
+                var fileSize = setFileSize(response[ii].split('#')[1]);
                 // var element = response[ii];
-                $('.resumable-list').append('<li class="resumable-file-'+ fileID +'"><span class="resumable-file-name"> <a href="/statics/' + response[ii] + '">' + response[ii] + '</a></span><button class="remove '+fileID+'">X</button>');
+                $('.resumable-list').append('<li class="resumable-file-'+ fileID +'"><span class="resumable-file-name"> <a href="/statics/' + fileName + '">' + fileName + '</a></span><span class="resumable-file-size">'+fileSize+'</span><button class="remove '+fileID+'">X</button>');
                 $('.resumable-progress, .resumable-list').show();
                 // console.log(getId(response[ii]));
             }
@@ -54,6 +59,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+function setFileSize(fileSize){
+    if(fileSize.length>9) return parseFloat(fileSize/1024/1024/1024).toFixed(2) + ' GB';
+    if(fileSize.length>6) return parseFloat(fileSize/1024/1024/1024).toFixed(2) + ' MB';
+    if(fileSize.length>3) return parseFloat(fileSize/1024/1024/1024).toFixed(2) + ' KB';
+
+
+}
 
 $('.resumable-list').on('click','button', function(){
     var fileName = $(this).parent().children('span').children('a').attr('href').split('/')[2];
@@ -105,7 +118,7 @@ if (!r.support) {
         $('.resumable-progress .progress-resume-link').hide();
         $('.resumable-progress .progress-pause-link').show();
         // Add the file to the list
-        $('.resumable-list').append('<li class="resumable-file-' + file.uniqueIdentifier + '"><span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-list').append('<li class="resumable-file-' + file.uniqueIdentifier + '"><span class="resumable-file-name"></span><span class="resumable-file-size">'+file.size+'</span> <span class="resumable-file-progress"></span>');
         $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html(file.fileName);
         // Actually start the upload
         t0 = performance.now();
@@ -123,7 +136,7 @@ if (!r.support) {
     });
     r.on('fileSuccess', function (file, message) {
         // Reflect that the file upload has completed
-        $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html('<a href="/statics/' + file.fileName + '">' + file.fileName + '</a>').parent().append('<button class="remove '+file.uniqueIdentifier+'">X</button>').children('.resumable-file-progress').remove();
+        $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html('<a href="/statics/' + file.fileName + '">' + file.fileName + '</a>').parent().children('.resumable-file-progress').html('<button class="remove '+file.uniqueIdentifier+'">X</button>');
         // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;

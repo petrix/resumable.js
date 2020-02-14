@@ -28,7 +28,7 @@ exports.get = function (req, res) {
             }
             break;
         case '/getfn':
-
+            // console.log(fileUpload.readFileNames(checkFolder));
             res.send(fileUpload.readFileNames(checkFolder));
 
             break;
