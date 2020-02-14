@@ -28,8 +28,16 @@ exports.get = function (req, res) {
             }
             break;
         case '/getfn':
+            var getfn = [];
             // console.log(fileUpload.readFileNames(checkFolder));
-            res.send(fileUpload.readFileNames(checkFolder));
+            fileUpload.readFileNames(checkFolder).forEach(function(fileString){
+                namArray = fileString.split('#');
+                getfn.push(namArray[0]+'#'+namArray[1]+'#'+cryptoId(namArray[0]));
+            });
+            // res.send(fileUpload.readFileNames(checkFolder));
+            // console.log(getfn);
+            res.send(getfn);
+            
 
             break;
         case '/upload':
@@ -42,6 +50,17 @@ exports.get = function (req, res) {
             break;
         case '/fileid':
             // retrieve file id. invoke with /fileid?filename=my-file.jpg
+            fileUpload.readFileNames(checkFolder).forEach(function (fileString) {
+                if (fileString.split('#')[0] === req.query.filename) {
+                                    // console.log(fileString);
+                }else{
+                    // return;
+                                        // res.sendStatus(404);
+                }
+            });
+
+
+
             if (!req.query.filename) {
                 return res.status(500).end('query parameter missing');
             }

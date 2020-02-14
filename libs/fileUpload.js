@@ -30,7 +30,7 @@ exports.readFileNames = function (filePath) {
 readDir.forEach(function(file){
     var size = fs.statSync(filePath+'/'+file).size;
     $request.push(file+'#'+size);
-    console.log(file, size);
+    // console.log(file, size);
     // return file, size;
     });
           return $request;
