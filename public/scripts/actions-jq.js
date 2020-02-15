@@ -121,13 +121,13 @@ if (!r.support) {
     r.on('fileAdded', function (file) {
         // console.log(fileSize,setFileSize(fileSize));
         // Show progress pabr
-        $('.resumable-progress, .resumable-list').show();
+        // $('.resumable-progress, .resumable-list').show();
         // Show pause, hide resume
-        $('.resumable-progress .progress-resume-link').hide();
-        $('.resumable-progress .progress-pause-link').show();
+        // $('.resumable-progress .progress-resume-link').hide();
+        // $('.resumable-progress .progress-pause-link').show();
         // Add the file to the list
-        $('.resumable-list').append('<li class="resumable-file-' + file.uniqueIdentifier + '"><span class="resumable-file-name"></span><span class="resumable-file-size">'+file.size+'</span> <span class="resumable-file-progress"></span><div class="backgnd-status"></div></li>');
-        $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html(file.fileName);
+        $('.resumable-list').append(`<li class="resumable-file-${file.uniqueIdentifier}><span class="resumable-file-name">${file.fileName}</span><span class="resumable-file-size">${file.size}</span> <span class="resumable-file-progress"></span><div class="backgnd-status"></div></li>`);
+        // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-name').html(file.fileName);
         // Actually start the upload
         t0 = performance.now();
         $('.performance').html('measuring...');
@@ -135,12 +135,12 @@ if (!r.support) {
     });
     r.on('pause', function () {
         // Show resume, hide pause
-        $('.resumable-progress .progress-resume-link').show();
-        $('.resumable-progress .progress-pause-link').hide();
+        // $('.resumable-progress .progress-resume-link').show();
+        // $('.resumable-progress .progress-pause-link').hide();
     });
     r.on('complete', function () {
         // Hide pause/resume when the upload has completed
-        $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
+        // $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
     });
     r.on('fileSuccess', function (file, message) {
         var fileSizeValue = setFileSize($('.resumable-file-' + file.uniqueIdentifier +' .resumable-file-size').html());
@@ -174,8 +174,8 @@ if (!r.support) {
     });
     r.on('uploadStart', function () {
         // Show pause, hide resume
-        $('.resumable-progress .progress-resume-link').hide();
-        $('.resumable-progress .progress-pause-link').show();
+        // $('.resumable-progress .progress-resume-link').hide();
+        // $('.resumable-progress .progress-pause-link').show();
     });
     r.on('filesAdded',function(file){
         console.log('filesAdded',file);
