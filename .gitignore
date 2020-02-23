@@ -2,7 +2,8 @@
 node_modules/
 
 public/uploads/*
-files/*
+files/*.*
+FILMS/*.*
 # Eclipse
 .classpath
 .project
