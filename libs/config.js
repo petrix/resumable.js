@@ -9,7 +9,7 @@ config.dirs = {
     uploadDir: 'uploads',
     // ../../home/p3xx.tk/public_html/uploads/FILMS/RU/
 
-    filesDir: '/home/p3xx.tk/public_html/uploads/FILMS/RU/'
+    filesDir: 'FILMS'
     // filesDir: 'files'
 };
 
