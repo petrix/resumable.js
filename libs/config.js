@@ -7,7 +7,10 @@ config.filesLink = '/statics';
 config.dirs = {
     publicDir: 'public',
     uploadDir: 'uploads',
-    filesDir: 'files'
+    // ../../home/p3xx.tk/public_html/uploads/FILMS/RU/
+
+    filesDir: '../../home/p3xx.tk/public_html/uploads/FILMS/RU/'
+    // filesDir: 'files'
 };
 
 module.exports = config;
