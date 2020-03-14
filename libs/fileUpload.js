@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const ffmpeg = require('ffmpeg');
 exports.getFullPath = function (_path) {
 
     _path = [path.dirname(require.main.filename)].concat(_path);
@@ -48,6 +48,41 @@ exports.removeFile = function (fileName,filePath) {
     for(let file of files){
         if(file === fileName){
             fs.unlinkSync(path.join(filePath, file));
+        }
+    }
+    return files;
+};
+
+exports.convert720 = function (fileName,filePath) {
+    const files = fs.readdirSync(filePath);
+    for(let file of files){
+        if(file === fileName){
+            // console.log(filePath , file)
+            try {
+                var process = new ffmpeg(filePath +'/'+ file);
+                process.then(function (video) {
+                    video
+		.setVideoSize('640x?', true, true, '#fff')
+		.setAudioCodec('libmp3lame')
+        .setAudioChannels(2)
+        .save(filePath +'720p'+file, function (error, file) {
+			if (!error)
+				console.log('Video file: ' + file);
+		});
+                    // Video metadata
+                    console.log(video);
+                    console.log(video.metadata.video.resolution);
+                    // FFmpeg configuration
+                    // console.log(video.info_configuration);
+                }, function (err) {
+                    console.log('Error: ' + err);
+                });
+            } catch (e) {
+                console.log(e.code);
+                console.log(e.msg);
+            }
+
+            // fs.unlinkSync(path.join(filePath, file));
 
         }
     }

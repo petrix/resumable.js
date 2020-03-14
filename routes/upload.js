@@ -15,8 +15,18 @@ function cryptoId(name) {
 exports.get = function (req, res) {
 
     switch (req.url.split('?')[0]) {
+        case '/convert720':
+            console.log('/convert720', req.query.filename);
+            // res.send(fileUpload.readFile(checkFolder));
+            var fileId = cryptoId(req.query.filename);
+            try {
+                fileUpload.convert720(req.query.filename, checkFolder);
+                res.send(fileId);
+            } catch (err) {
+                console.error(err);
+            }
+            break;
         case '/rmFile':
-
             console.log('/rmFile', req.query.filename);
             // res.send(fileUpload.readFile(checkFolder));
             var fileId = cryptoId(req.query.filename);
@@ -30,14 +40,14 @@ exports.get = function (req, res) {
         case '/getfn':
             var getfn = [];
             // console.log(fileUpload.readFileNames(checkFolder));
-            fileUpload.readFileNames(checkFolder).forEach(function(fileString){
+            fileUpload.readFileNames(checkFolder).forEach(function (fileString) {
                 namArray = fileString.split('#');
-                getfn.push(namArray[0]+'#'+namArray[1]+'#'+cryptoId(namArray[0]));
+                getfn.push(namArray[0] + '#' + namArray[1] + '#' + cryptoId(namArray[0]));
             });
             // res.send(fileUpload.readFileNames(checkFolder));
             // console.log(getfn);
             res.send(getfn);
-            
+
 
             break;
         case '/upload':
@@ -52,10 +62,10 @@ exports.get = function (req, res) {
             // retrieve file id. invoke with /fileid?filename=my-file.jpg
             fileUpload.readFileNames(checkFolder).forEach(function (fileString) {
                 if (fileString.split('#')[0] === req.query.filename) {
-                                    // console.log(fileString);
-                }else{
+                    // console.log(fileString);
+                } else {
                     // return;
-                                        // res.sendStatus(404);
+                    // res.sendStatus(404);
                 }
             });
 
@@ -90,9 +100,7 @@ exports.post = function (req, res) {
 
     } else {
         resumable.post(req, function (status, filename, original_filename, identifier) {
-
             // console.log('POST', status, original_filename, identifier);
-
             if (status === 'done') {
                 //when all chunks uploaded, then createWriteStream to /files folder with filename
                 const stream = fs.createWriteStream(fileUpload.getFullPath([Config.dirs.filesDir, filename]));
@@ -105,10 +113,11 @@ exports.post = function (req, res) {
                 resumable.write(identifier, stream, {
                     onDone: onDone
                 });
-
             }
             try {
-                // console.log(status);
+                if (status == 'done') {
+                    console.log(status);
+                }
                 res.send(status);
             } catch (err) {
                 console.error(err);

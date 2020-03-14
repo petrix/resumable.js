@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var fileID = response[ii].split('#')[2];
                 var fileSize = setFileSize(response[ii].split('#')[1]);
                 // var element = response[ii];
-                $('.resumable-list').append(`<li class='resumable-file-${fileID}'><span class='resumable-file-name'> <a href='/statics/${fileName}'> ${fileName} </a></span><span class='resumable-file-size ${fileSize}'>${fileSize}</span><span class='resumable-file-progress'><button class='remove ${fileID}'>X</button></span><div class='backgnd-status'></div></li>`);
+                $('.resumable-list').append(`<li class='resumable-file-${fileID}'><span class='resumable-file-name'> <a href='/statics/${fileName}'> ${fileName} </a></span><span class='resumable-file-size ${fileSize}'>${fileSize}</span><span class='resumable-file-progress'><button class='convert720 ${fileID}'>Convert 720</button><button class='remove ${fileID}'>X</button></span><div class='backgnd-status'></div></li>`);
                 // $('.resumable-progress, .resumable-list').show();
                 // console.log(getId(response[ii]));
                 //    console.log(r.addFiles(fileID));
@@ -83,12 +83,25 @@ var r = new Resumable({
     generateUniqueIdentifier: generateId
 });
 $('.resumable-list').on('click', 'button', function () {
-    var fileName = $(this).parent().parent().children('span').children('a').attr('href').split('/')[2];
+    var fileName = $(this).parent().parent().children('.resumable-file-name').children('a').attr('href').split('/')[2];
     console.log(fileName);
-    $.get('/rmFile?filename=' + fileName, function (result) {
-        // console.log(result);
-        $(".resumable-file-" + result).remove();
-    });
+
+    if ($(this).hasClass('remove')) {
+
+        $.get('/rmFile?filename=' + fileName, function (result) {
+            // console.log(result);
+            $(".resumable-file-" + result).remove();
+        });
+        // console.log($(this));
+
+    } else if ($(this).hasClass('convert720')) {
+        console.log($(this));
+        $.get('/convert720?filename=' + fileName, function (result) {
+            console.log(result);
+            // $(".resumable-file-" + result).remove();
+        });
+    }
+
     // console.log(fileName);
 });
 
@@ -139,9 +152,9 @@ if (!r.support) {
         $(`.resumable-file-${file.uniqueIdentifier}`).children(`.resumable-file-name`)
             .html(`<a href="/statics/${file.fileName}">${file.fileName} </a>`)
             .parent().children(`.resumable-file-size`)
-            .html(setFileSize(fileSizeValue)).parent()/* .parent() */
+            .html(setFileSize(fileSizeValue)).parent() /* .parent() */
             .children(`.resumable-file-progress`)
-            .html(`<button class="remove ${file.uniqueIdentifier}">X</button>`);
+            .html(`<button class="convert720 ${file.uniqueIdentifier}">Convert 720</button><button class="remove ${file.uniqueIdentifier}">X</button>`);
         // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;
