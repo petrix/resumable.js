@@ -6,6 +6,7 @@ module.exports = function(app){
 
     const uploadRoute = require('./upload');
     app.get('/getfn', uploadRoute.get);
+    app.get('/socket.io', uploadRoute.get);
     app.get('/rmFile', uploadRoute.get);
     app.get('/convert720', uploadRoute.get);
     app.get('/convert360', uploadRoute.get);

@@ -7,9 +7,14 @@ var multipart = require('connect-multiparty');
 var crypto = require('crypto');
 var http = require('http');
 var app = express();
+var io = require('socket.io')(http);
+// io.on('connection', function(socket){
+//   console.log('a user connected');
+// });
 // Host most stuff in the public folder
 app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui-dist'));
 app.use('/video-js', express.static(__dirname + '/node_modules/video.js/dist'));
+app.use('/socket-io', express.static(__dirname + '/node_modules/socket.io-client/dist'));
 
 app.use(express.static(path.join(__dirname, Config.dirs.publicDir)));
 app.use(Config.filesLink, express.static(path.join(__dirname, Config.dirs.filesDir)));

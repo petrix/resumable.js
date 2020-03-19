@@ -111,7 +111,7 @@ exports.post = function (req, res) {
 
     } else {
         resumable.post(req, function (status, filename, original_filename, identifier) {
-            // console.log('POST', status, original_filename, identifier);
+            console.log('POST', status, original_filename, identifier);
             if (status === 'done') {
                 //when all chunks uploaded, then createWriteStream to /files folder with filename
                 const stream = fs.createWriteStream(fileUpload.getFullPath([Config.dirs.filesDir, filename]));

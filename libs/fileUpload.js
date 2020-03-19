@@ -11,15 +11,15 @@ const logProgress = (progress, event) => {
     // progress is a floating point number from 0 to 1
     console.log('progress', (progress * 100).toFixed(2))
 }
-//   const executeFfmpeg = args => {
-//     let command = ffmpeg().output(' '); // pass "Invalid output" validation
-//     command._outputs[0].isFile = false; // disable adding "-y" argument
-//     command._outputs[0].target = ""; // bypass "Unable to find a suitable output format for ' '"
-//     command._global.get = () => { // append custom arguments
-//         return typeof args === "string" ? args.split(' ') : args;
-//     };
-//     return command;
-// };
+  const executeFfmpeg = args => {
+    let command = ffmpeg().output(' '); // pass "Invalid output" validation
+    command._outputs[0].isFile = false; // disable adding "-y" argument
+    command._outputs[0].target = ""; // bypass "Unable to find a suitable output format for ' '"
+    command._global.get = () => { // append custom arguments
+        return typeof args === "string" ? args.split(' ') : args;
+    };
+    return command;
+};
 
 
 
@@ -89,7 +89,7 @@ exports.convert720 = function (fileName, filePath) {
             // }
 
             var command = ffmpeg().input(filePath + '/' + file)
-                .output(filePath + '/' + file + '-720p' + '.mp4')
+                .output(filePath + '/'+ '720p-ixi-' + file  + '.mp4')
                 .videoCodec('libx264')
                 // .inputOptions('-preset fast')
                 .size('1280x?')
@@ -120,7 +120,7 @@ exports.convert360 = function (fileName, filePath) {
             // }
 
             var command = ffmpeg().input(filePath + '/' + file)
-                .output(filePath + '/' + file + '-360p' + '.mp4')
+                .output(filePath + '/'+ '360p-ixi-' + file + '.mp4')
                 .videoCodec('libx264')
                 // .inputOptions('-preset fast')
                 .size('640x?')

@@ -12,7 +12,8 @@
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
     "jquery-ui-dist": "^1.12.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "video.js": "^7.6.6"
