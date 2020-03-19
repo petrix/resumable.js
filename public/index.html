@@ -5,29 +5,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="./styles/main.css" />
     <link rel="shortcut icon" href='./images/favicon.ico'>
+
+          <link rel="stylesheet" href="/jquery-ui/jquery-ui.min.css">
+      <link rel="stylesheet" href="/jquery-ui/jquery-ui.theme.min.css">
+      <link rel="stylesheet" href="/video-js/video-js.min.css">
+      
+    <link rel="stylesheet" type="text/css" href="./styles/main.css" />
+
+
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <script src="/jquery-ui/jquery-ui.min.js"></script>
+      <script src="/video-js/video.min.js"></script>
+
   </head>
   <body>
     <div id="frame">
+<div class="videoWindow">
 
-      <h1>Resumable.js</h1>
-      <p>It's a JavaScript library providing multiple simultaneous, stable and resumable uploads via the HTML5 File API.</p>
-
-      <p>The library is designed to introduce fault-tolerance into the upload of large files through HTTP. This is done by splitting each files into small chunks; whenever the upload of a chunk fails, uploading is retried until the procedure completes. This allows uploads to automatically resume uploading after a network connection is lost either locally or to the server. Additionally, it allows for users to pause and resume uploads without loosing state.</p>
-
-      <p>Resumable.js relies on the HTML5 File API and the ability to chunks files into smaller pieces. Currently, this means that support is limited to Firefox 4+ and Chrome 11+.</p>
-
-      <hr/>
-
-      <h3>Demo</h3>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-
-      <div class="resumable-error">
-        Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
-      </div>
-
+      <video id="videoPlayer" class="video-js vjs-big-play-centered">
+        <source src="/statics/BigBuckBunny.mp4" type="video/mp4">
+      </video>
+</div>
       <div class="resumable-drop">
         Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
       </div>
@@ -48,12 +48,12 @@
         </table>
     </div>
       
-      <ul class="resumable-list"></ul>
+      <ul class="resumable-list" id="selectable"></ul>
 
     </div>
     <!-- <footer>-->
       <div>
-      <div class="performance"></div>
+      <!-- <div class="performance"></div> -->
       <div class="performance-result"></div>
       </div>
       <script src="./scripts/resumable.js"></script>

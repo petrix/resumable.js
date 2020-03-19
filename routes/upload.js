@@ -26,6 +26,17 @@ exports.get = function (req, res) {
                 console.error(err);
             }
             break;
+            case '/convert360':
+            console.log('/convert360', req.query.filename);
+            // res.send(fileUpload.readFile(checkFolder));
+            var fileId = cryptoId(req.query.filename);
+            try {
+                fileUpload.convert360(req.query.filename, checkFolder);
+                res.send(fileId);
+            } catch (err) {
+                console.error(err);
+            }
+            break;
         case '/rmFile':
             console.log('/rmFile', req.query.filename);
             // res.send(fileUpload.readFile(checkFolder));

@@ -1,6 +1,28 @@
 const fs = require('fs');
 const path = require('path');
-const ffmpeg = require('ffmpeg');
+// const ffmpeg = require('ffmpeg');
+
+var ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+var ffmpeg = require('fluent-ffmpeg'),
+    ffmpegOnProgress = require('ffmpeg-on-progress');
+ffmpeg.setFfmpegPath(ffmpegPath);
+// var command = ffmpeg();
+const logProgress = (progress, event) => {
+    // progress is a floating point number from 0 to 1
+    console.log('progress', (progress * 100).toFixed(2))
+}
+//   const executeFfmpeg = args => {
+//     let command = ffmpeg().output(' '); // pass "Invalid output" validation
+//     command._outputs[0].isFile = false; // disable adding "-y" argument
+//     command._outputs[0].target = ""; // bypass "Unable to find a suitable output format for ' '"
+//     command._global.get = () => { // append custom arguments
+//         return typeof args === "string" ? args.split(' ') : args;
+//     };
+//     return command;
+// };
+
+
+
 exports.getFullPath = function (_path) {
 
     _path = [path.dirname(require.main.filename)].concat(_path);
@@ -21,68 +43,96 @@ exports.saveFile = function (fileToUpload, filePath) {
     return filePath;
 };
 ////////////////
-    
+
 exports.readFileNames = function (filePath) {
-    const readDir = fs.readdirSync(filePath, (err, files) => {
- });    
+    const readDir = fs.readdirSync(filePath, (err, files) => {});
     var $request = [];
 
-readDir.forEach(function(file){
-    var size = fs.statSync(filePath+'/'+file).size;
-    $request.push(file+'#'+size);
-    // console.log(file, size);
-    // return file, size;
+    readDir.forEach(function (file) {
+        var size = fs.statSync(filePath + '/' + file).size;
+        $request.push(file + '#' + size);
+        // console.log(file, size);
+        // return file, size;
     });
-          return $request;
-      
+    return $request;
 
-            //  console.log(readDir);
-//  return readDir;
+
+    //  console.log(readDir);
+    //  return readDir;
     // const files = fs.readdirSync(filePath);
     // for(let file of files){
     // }
     // return files;
 };
-exports.removeFile = function (fileName,filePath) {
+exports.removeFile = function (fileName, filePath) {
     const files = fs.readdirSync(filePath);
-    for(let file of files){
-        if(file === fileName){
+    for (let file of files) {
+        if (file === fileName) {
             fs.unlinkSync(path.join(filePath, file));
         }
     }
     return files;
 };
+var convertingItems = [];
+var convertingCount = 0;
 
-exports.convert720 = function (fileName,filePath) {
+exports.convert720 = function (fileName, filePath) {
     const files = fs.readdirSync(filePath);
-    for(let file of files){
-        if(file === fileName){
-            // console.log(filePath , file)
-            try {
-                var process = new ffmpeg(filePath +'/'+ file);
-                process.then(function (video) {
-                    video
-		.setVideoSize('640x?', true, true, '#fff')
-		.setAudioCodec('libmp3lame')
-        .setAudioChannels(2)
-        .save(filePath +'720p'+file, function (error, file) {
-			if (!error)
-				console.log('Video file: ' + file);
-		});
-                    // Video metadata
-                    console.log(video);
-                    console.log(video.metadata.video.resolution);
-                    // FFmpeg configuration
-                    // console.log(video.info_configuration);
-                }, function (err) {
-                    console.log('Error: ' + err);
-                });
-            } catch (e) {
-                console.log(e.code);
-                console.log(e.msg);
-            }
+    for (let file of files) {
+        if (file === fileName) {
 
-            // fs.unlinkSync(path.join(filePath, file));
+            var fileDst = file.split('.');
+            console.log(fileDst);
+
+            // for(var iii=0;i<fileDst.length-1;iii++){
+            //     fileDstName+=fileDst[iii]+'.';
+            // }
+
+            var command = ffmpeg().input(filePath + '/' + file)
+                .output(filePath + '/' + file + '-720p' + '.mp4')
+                .videoCodec('libx264')
+                // .inputOptions('-preset fast')
+                .size('1280x?')
+                .audioCodec('aac')
+                .keepDAR()
+                .on('progress', ffmpegOnProgress(logProgress))
+                .on('start', commandLine => console.log('start', commandLine))
+                // .on('codecData', codecData => console.log('codecData', codecData))
+                .on('error', error => console.log('error', error))
+                // .on('stderr', stderr => console.log('stderr', stderr))
+                .on('end', end => console.log('end', end))
+                .run();
+
+        }
+    }
+    return files;
+};
+exports.convert360 = function (fileName, filePath) {
+    const files = fs.readdirSync(filePath);
+    for (let file of files) {
+        if (file === fileName) {
+
+            var fileDst = file.split('.');
+            console.log(fileDst);
+
+            // for(var iii=0;i<fileDst.length-1;iii++){
+            //     fileDstName+=fileDst[iii]+'.';
+            // }
+
+            var command = ffmpeg().input(filePath + '/' + file)
+                .output(filePath + '/' + file + '-360p' + '.mp4')
+                .videoCodec('libx264')
+                // .inputOptions('-preset fast')
+                .size('640x?')
+                .audioCodec('aac')
+                .keepDAR()
+                .on('progress', ffmpegOnProgress(logProgress))
+                .on('start', commandLine => console.log('start', commandLine))
+                // .on('codecData', codecData => console.log('codecData', codecData))
+                .on('error', error => console.log('error', error))
+                // .on('stderr', stderr => console.log('stderr', stderr))
+                .on('end', end => console.log('end', end))
+                .run();
 
         }
     }
@@ -112,21 +162,24 @@ exports.clearFolder = function (dirName, filterArray = []) {
 };
 
 
-function getFileSize(filePath,file){
-    fs.open(filePath+"/"+file, "r", (err, fd) => {
+function getFileSize(filePath, file) {
+    fs.open(filePath + "/" + file, "r", (err, fd) => {
         if (err) throw err;
         fs.fstat(fd, (err, stat) => {
-          if (err) throw err;
-        //   console.log(fd);
-          var size = stat.size;
-          var b={file : file , size : size};
-            
-          fs.close(fd, err => {
             if (err) throw err;
-          });
-          console.log(b);
-          return b;
+            //   console.log(fd);
+            var size = stat.size;
+            var b = {
+                file: file,
+                size: size
+            };
+
+            fs.close(fd, err => {
+                if (err) throw err;
+            });
+            console.log(b);
+            return b;
         });
-        
-      });
+
+    });
 }

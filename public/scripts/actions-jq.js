@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var fileID = response[ii].split('#')[2];
                 var fileSize = setFileSize(response[ii].split('#')[1]);
                 // var element = response[ii];
-                $('.resumable-list').append(`<li class='resumable-file-${fileID}'><span class='resumable-file-name'> <a href='/statics/${fileName}'> ${fileName} </a></span><span class='resumable-file-size ${fileSize}'>${fileSize}</span><span class='resumable-file-progress'><button class='convert720 ${fileID}'>Convert 720</button><button class='remove ${fileID}'>X</button></span><div class='backgnd-status'></div></li>`);
+                $('.resumable-list').append(`<li class='resumable-file-${fileID}'><span class='resumable-file-name'> <a href='/statics/${fileName}'> ${fileName} </a></span><span class='resumable-file-size ${fileSize}'>${fileSize}</span><span class='resumable-file-progress'><button class='convert360 ${fileID}'>Convert 360</button><button class='convert720 ${fileID}'>Convert 720</button><button class='remove ${fileID}'>X</button></span><div class='backgnd-status'></div></li>`);
                 // $('.resumable-progress, .resumable-list').show();
                 // console.log(getId(response[ii]));
                 //    console.log(r.addFiles(fileID));
@@ -71,7 +71,40 @@ var setFileSize = function (fileSize) {
     if (fileSize.length > 3) return parseFloat(fileSize / 1024).toFixed(2) + ' KB';
 }
 
+$( "#selectable" ).selectable({
+    stop: function(){
+        $('.ui-selected', this).each(function(){
+            // var index = $('#selectable li').index(this);
+            // var index = $('#selectable li').attr(this);
+            var index = $(this).children('.resumable-file-name').children('a').attr('href');
+            console.log(index);
+            player.src([
+                {type: 'video/mp4', src: index}
+              ]);
+        });
+    }
+});
 
+
+var player = videojs('videoPlayer',{
+    autoplay: 'muted',
+    // autoplay: false,
+    controls: true,
+    // loop: true,
+    aspectRatio: '16:9',
+    // fluid: true,
+    preload: 'auto'
+});
+// console.log(player.currentTime());
+
+// $("li").on("mousedown",function(){
+//   var r = parseInt(Math.random()*255);
+//   var g = parseInt(Math.random()*255);
+//   var b = parseInt(Math.random()*255);
+
+//   console.log("rgb("+r+","+g+","+b+")");
+//   $(this).css({"background-color":"rgb("+r+","+g+","+b+")"})
+// });
 
 var t0, t1;
 var r = new Resumable({
@@ -97,6 +130,11 @@ $('.resumable-list').on('click', 'button', function () {
     } else if ($(this).hasClass('convert720')) {
         console.log($(this));
         $.get('/convert720?filename=' + fileName, function (result) {
+            console.log(result);
+            // $(".resumable-file-" + result).remove();
+        });
+    } else if ($(this).hasClass('convert360')){
+        $.get('/convert360?filename=' + fileName, function (result) {
             console.log(result);
             // $(".resumable-file-" + result).remove();
         });
@@ -154,7 +192,7 @@ if (!r.support) {
             .parent().children(`.resumable-file-size`)
             .html(setFileSize(fileSizeValue)).parent() /* .parent() */
             .children(`.resumable-file-progress`)
-            .html(`<button class="convert720 ${file.uniqueIdentifier}">Convert 720</button><button class="remove ${file.uniqueIdentifier}">X</button>`);
+            .html(`<button class="convert360 ${file.uniqueIdentifier}">Convert 360</button><button class="convert720 ${file.uniqueIdentifier}">Convert 720</button><button class="remove ${file.uniqueIdentifier}">X</button>`);
         // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;
@@ -176,7 +214,7 @@ if (!r.support) {
             .html(`${Math.floor(file.progress() * 100)}%`).parent()
             .children(`.backgnd-status`)
             .css({
-                width: `${file.progress()*80}%`
+                width: `${file.progress()* 100}%`
             });
         $('.progress-bar').css({
             width: Math.floor(file.progress() * 100) + '%'
