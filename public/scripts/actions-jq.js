@@ -13,6 +13,12 @@ function generateId(file) {
     });
     return ret;
 }
+
+
+var videoPlayer = $('#videoPlayer');
+// var videoPlayer = document.querySelector('#videoPlayer');
+
+// var socket = new io();
 // function getId(fileName) {
 //     var fnId = $.ajax({
 //         type: "get",
@@ -32,6 +38,8 @@ function generateId(file) {
 //     return fnId.responseText;
 // }
 document.addEventListener("DOMContentLoaded", function () {
+    var convRes = ['360p', '720p', '1080p'];
+    var fileNameArr = [];
     var getfn = $.ajax({
         type: "get",
         url: "/getfn",
@@ -48,17 +56,88 @@ document.addEventListener("DOMContentLoaded", function () {
                 var fileID = response[ii].split('#')[2];
                 var fileSize = setFileSize(response[ii].split('#')[1]);
                 // var element = response[ii];
-                $('.resumable-list').append(`<li class='resumable-file-${fileID}'><span class='resumable-file-name'> <a href='/statics/${fileName}'> ${fileName} </a></span><span class='resumable-file-size ${fileSize}'>${fileSize}</span><span class='resumable-file-progress'><button class='convert360 ${fileID}'>Convert 360</button><button class='convert720 ${fileID}'>Convert 720</button><button class='remove ${fileID}'>X</button></span><div class='backgnd-status'></div></li>`);
+                $('.resumable-list').append(`<li class='resumable-file-${fileID}'>
+                <span class='resumable-file-name'> 
+                <a href='/statics/${fileName}'> ${fileName} </a>
+                </span>
+                <span class='resumable-file-size ${fileSize}'>${fileSize}</span>
+                <span class='resumable-file-progress'>
+                
+                <button class='convert360 convert360-${fileID}'>360p</button>
+                <button class='convert720 convert720-${fileID}'>720p</button>
+                <button class='remove ${fileID}'>X</button>
+                </span>
+                                
+
+                <div class='backgnd-status'></div>
+                </li>`);
                 // $('.resumable-progress, .resumable-list').show();
                 // console.log(getId(response[ii]));
                 //    console.log(r.addFiles(fileID));
                 //    console.log(r.getFromUniqueIdentifier(fileID));
             }
+            // for(var xxx = 0; xxx< response.length; xxx++){
+            //     var tmpName = response[xxx].split('#');
+            //     fileNameArr.push(tmpName[0]);
+            // }
+            fileNameArr = response;
+            // console.log(fileNameArr);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
         }
     });
+
+    var getfn = $.ajax({
+        type: "get",
+        url: "/getConverted",
+        // async: false,
+        // url: "/upload",
+        data: "data",
+        dataType: "text",
+        success: function (response) {
+            response = JSON.parse(response);
+            console.log(response);
+            fileNameArr.forEach(function(item,i){
+                // console.log(item.split('#')[0],i);
+                for(var xx= 0; xx< response.length;xx++){
+                    var filename = response[xx].split('-ixi-')[0];
+                    if(filename == item.split('#')[0]){
+                        // if(){}
+                        // console.log(response[xx].split('-ixi-')[1].split('.')[0]);
+                        if(response[xx].split('-ixi-')[1].split('.')[0] == '360p'){
+                        // console.log(response[xx].split('-ixi-')[1].split('.')[0],i);
+                        $(`.resumable-file-${item.split('#')[2]}`)
+                        .children('.resumable-file-progress')
+                        .children(`.convert360-${item.split('#')[2]}`).attr({'disabled':true});
+                        }else if(response[xx].split('-ixi-')[1].split('.')[0] == '720p'){
+                            $(`.resumable-file-${item.split('#')[2]}`)
+                            .children('.resumable-file-progress')
+                            .children(`.convert720-${item.split('#')[2]}`).attr({'disabled':true});
+                        }
+
+                    }
+                }
+            });
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
+        }
+    });
+
+    var socket = io();
+    console.log(socket);
+    socket.on('connect',function(){
+        console.log('connected');
+    })
+    socket.on('clock', function(result){
+        console.log(result);
+    });
+    
+
+
+
 });
 
 
@@ -71,39 +150,24 @@ var setFileSize = function (fileSize) {
     if (fileSize.length > 3) return parseFloat(fileSize / 1024).toFixed(2) + ' KB';
 }
 
-$( "#selectable" ).selectable({
-    stop: function(){
-        $('.ui-selected', this).each(function(){
-            // var index = $('#selectable li').index(this);
-            // var index = $('#selectable li').attr(this);
-            var index = $(this).children('.resumable-file-name').children('a').attr('href');
-            console.log(index);
-            player.src([
-                {type: 'video/mp4', src: index}
-              ]);
-        });
-    }
-});
+// $( "#selectable" ).selectable({
+//     stop: function(){
+//         $('.ui-selected', this).each(function(){
+//             var index = $(this).children('.resumable-file-name').children('a').attr('href');
+//             console.log(index);
+//             player.src([
+//                 {type: 'video/mp4', src: index}
+//               ]);
+//         });
+//     }
+// });
 
 
-var player = videojs('videoPlayer',{
-    autoplay: 'muted',
-    // autoplay: false,
-    controls: true,
-    // loop: true,
-    aspectRatio: '16:9',
-    // fluid: true,
-    preload: 'auto'
-});
-// console.log(player.currentTime());
-
-// $("li").on("mousedown",function(){
-//   var r = parseInt(Math.random()*255);
-//   var g = parseInt(Math.random()*255);
-//   var b = parseInt(Math.random()*255);
-
-//   console.log("rgb("+r+","+g+","+b+")");
-//   $(this).css({"background-color":"rgb("+r+","+g+","+b+")"})
+// var player = videojs('videoPlayer',{
+//     autoplay: 'muted',
+//     controls: true,
+//     aspectRatio: '16:9',
+//     preload: 'auto'
 // });
 
 var t0, t1;
@@ -115,46 +179,42 @@ var r = new Resumable({
     throttleProgressCallbacks: 1,
     generateUniqueIdentifier: generateId
 });
+
+
 $('.resumable-list').on('click', 'button', function () {
     var fileName = $(this).parent().parent().children('.resumable-file-name').children('a').attr('href').split('/')[2];
     console.log(fileName);
 
     if ($(this).hasClass('remove')) {
-
         $.get('/rmFile?filename=' + fileName, function (result) {
-            // console.log(result);
             $(".resumable-file-" + result).remove();
         });
-        // console.log($(this));
-
     } else if ($(this).hasClass('convert720')) {
-        console.log($(this));
+        $(this).attr({'disabled':true});
         $.get('/convert720?filename=' + fileName, function (result) {
             console.log(result);
-            // $(".resumable-file-" + result).remove();
         });
     } else if ($(this).hasClass('convert360')){
+        $(this).attr({'disabled':true});
         $.get('/convert360?filename=' + fileName, function (result) {
             console.log(result);
-            // $(".resumable-file-" + result).remove();
         });
     }
-
-    // console.log(fileName);
+}).on('click', 'li',function(){
+    var filename = $(this).children('.resumable-file-name').children('a').attr('href');
+    var filenameSplitted = filename.split('/');
+    console.log(filenameSplitted[filenameSplitted.length-1]);
+    videoPlayer.html(`<source src="${filename}" type="video/mp4">`);
+    videoPlayer[0].play();
 });
 
-
-// Resumable.js isn't supported, fall back on a different method
 if (!r.support) {
     $('.resumable-error').show();
 } else {
-    // Show a place for dropping/selecting files
     var dropElement = $('.resumable-drop');
     dropElement.show();
     r.assignDrop(dropElement[0]);
     r.assignBrowse($('.resumable-browse')[0]);
-    // r.assignBrowse($('.resumable-browse'));
-
     dropElement.on("dragenter", function () {
         $(this).addClass('resumable-dragover');
     });

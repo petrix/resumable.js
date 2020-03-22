@@ -4,6 +4,7 @@ const fileUpload = require('../libs/fileUpload');
 const upDir = fileUpload.getFullPath([Config.dirs.publicDir, Config.dirs.uploadDir]);
 const resumable = require('../libs/resumableNode')(upDir);
 const checkFolder = fileUpload.getFullPath([Config.dirs.filesDir]);
+const convertedFolder = fileUpload.getFullPath([Config.dirs.convertedDir]);
 const crypto = require('crypto');
 
 function cryptoId(name) {
@@ -11,7 +12,26 @@ function cryptoId(name) {
         .update(name)
         .digest('hex')
 }
+var io;
+var date
+exports.init = function(newIO){
+    io = newIO;
+    var int;
+    io.on('connection',function(socket){
+        console.log(socket)
+    //     clearInterval(int);
+    //         int = setInterval(function(){
+    //         date = +new Date().getTime();
+    //     socket.emit('clock',date);
+    //     console.log(date);
+    // },500)
+    socket.on('disconnect',function(){
+        console.log('disconnected');
+    })
+    });
 
+
+}
 exports.get = function (req, res) {
 
     switch (req.url.split('?')[0]) {
@@ -20,13 +40,15 @@ exports.get = function (req, res) {
             // res.send(fileUpload.readFile(checkFolder));
             var fileId = cryptoId(req.query.filename);
             try {
-                fileUpload.convert720(req.query.filename, checkFolder);
-                res.send(fileId);
+                fileUpload.convert720(req.query.filename, checkFolder, function (result) {
+                    res.send(result);
+                });
+
             } catch (err) {
                 console.error(err);
             }
             break;
-            case '/convert360':
+        case '/convert360':
             console.log('/convert360', req.query.filename);
             // res.send(fileUpload.readFile(checkFolder));
             var fileId = cryptoId(req.query.filename);
@@ -50,16 +72,19 @@ exports.get = function (req, res) {
             break;
         case '/getfn':
             var getfn = [];
-            // console.log(fileUpload.readFileNames(checkFolder));
             fileUpload.readFileNames(checkFolder).forEach(function (fileString) {
                 namArray = fileString.split('#');
                 getfn.push(namArray[0] + '#' + namArray[1] + '#' + cryptoId(namArray[0]));
             });
-            // res.send(fileUpload.readFileNames(checkFolder));
-            // console.log(getfn);
             res.send(getfn);
-
-
+            break;
+        case '/getConverted':
+            var getfn = [];
+            fileUpload.readFileNames(convertedFolder).forEach(function (fileString) {
+                namArray = fileString.split('#');
+                getfn.push(namArray[0] + '#' + namArray[1] + '#' + cryptoId(namArray[0]));
+            });
+            res.send(getfn);
             break;
         case '/upload':
             // Handle status checks on chunks through Resumable.js

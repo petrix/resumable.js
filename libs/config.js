@@ -9,7 +9,9 @@ config.dirs = {
     uploadDir: 'uploads',
     // ../../home/p3xx.tk/public_html/uploads/FILMS/RU/
 
-    filesDir: 'FILMS'
+    filesDir: 'FILMS',
+    convertedDir: 'FILMS-converted'
+
     // filesDir: 'files'
 };
 

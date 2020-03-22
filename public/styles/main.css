@@ -6,17 +6,20 @@
 
 html,
 body {
-    height: 100%;
+    height: 100vh;
+    width: 100%;
 }
 
 /* ---------------- Common styles ------------------ */
 body {
+    display: flex;
     font: 1em/1.5 'Jura', Sans-serif;
     margin: 0;
     background: #949494;
-    display: flex;
     flex-direction: column;
-
+    align-items: center;
+    justify-content: center;
+    overscroll-behavior: contain;
 }
 
 a {
@@ -280,10 +283,7 @@ iframe {
 }
 
 /* Uploader: List of items being uploaded */
-.resumable-list {
-    overflow: auto;
-    text-align: left;
-}
+
 
 .uploader-item {
     width: 148px;
@@ -360,52 +360,41 @@ iframe {
     
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* padding: 0 5%; */
-}
 
 #frame {
     max-width: 1000px;
     width: 100%;
-    position: absolute;
+    /* position: absolute; */
     height: 100%;
     overflow: hidden;
 }
-
-/* .st0{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;} */
-#selectable .ui-selecting { background: #FECA40; }
-#selectable .ui-selected { background: #F39814; color: white; }
-#selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-/* #selectable li { padding: 0.4em; font-size: 1.4em;width: 100%;} */
-/* #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; width: 85px;} */
-
 
 .videoWindow{
     width: 100%;
     display: flex;
     flex-direction: row;
+    /* height: 500px; */
+}
+.videoPlayer{
+    height: 400px;
 }
 .video-info{
     width: 30%;
 }
 
-.resumable-list {
-    padding: 0;
-    /* border-radius: 10px; */
-          max-height: 300px;
-    overflow-y: auto;
-    /* line-height: 100%;   */
-    /* overflow: hidden; */
-    position: absolute;
-}
+
 
 .fileList{
-    max-height: 300px;
+    height: 50vh;
     /* overflow-y: auto; */
+    overflow-y: auto;
+    position: absolute;
 
+}
+.resumable-list {
+    padding: 0; 
+        overflow: auto;
+        text-align: left;
 }
 .resumable-list li {
     display: flex;
@@ -417,12 +406,11 @@ body {
     /* min-width: 90%; */
     overflow: hidden;
     font-weight: bold;
-    /* border: 1px solid black; */
-    /* mix-blend-mode: lighten; */
-    /* mix-blend-mode: difference; */
-
+    background-color: rgb(156, 156, 156);
 }
-
+.resumable-list li span{
+    z-index: 1;
+}
 .resumable-file-name {
     width: 65%;
     /* padding-left: 1%; */
@@ -433,21 +421,37 @@ body {
 .resumable-list li a {
     text-decoration: none;
 }
-
+.convert360{
+    background-color: rgb(255, 202, 123);
+}
+.convert720{
+    background-color: rgb(255, 151, 125);
+}
 .resumable-list li button {
+    font-family: 'Jura';
+    font-weight: bold;
     text-decoration: none;
     /* border:none; */
     text-transform: capitalize;
-    background: none;
+    /* background: none; */
     border-radius: 7px;
     border: 1px solid black;
-    cursor: pointer;
+    /* cursor: pointer; */
     white-space: nowrap;
+    font-size: 15px;
+    padding: 10px;
+    margin: 0 10px;
+    cursor: crosshair;
 }
+.resumable-list li button:disabled{
+    color: #ffffff;
+    cursor: default;
+}
+
 
 .backgnd-status {
     position: absolute;
-    z-index: -10;
+    /* z-index: -10; */
     background-color: rgb(200, 200, 200);
     width: 100%;
     height: 49px;

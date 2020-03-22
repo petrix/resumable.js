@@ -66,9 +66,19 @@ exports.readFileNames = function (filePath) {
 };
 exports.removeFile = function (fileName, filePath) {
     const files = fs.readdirSync(filePath);
+    const convFiles = fs.readdirSync(`${filePath}-converted`);
     for (let file of files) {
         if (file === fileName) {
             fs.unlinkSync(path.join(filePath, file));
+        }
+    }
+    for (let convFile of convFiles){
+        var x = convFile.split('-ixi-')[0];
+        if(x == fileName){
+                    console.log(x);
+     
+                        fs.unlinkSync(path.join(`${filePath}-converted`, convFile));
+
         }
     }
     return files;
@@ -78,6 +88,7 @@ var convertingCount = 0;
 
 exports.convert720 = function (fileName, filePath) {
     const files = fs.readdirSync(filePath);
+    var newFileName;
     for (let file of files) {
         if (file === fileName) {
 
@@ -87,9 +98,9 @@ exports.convert720 = function (fileName, filePath) {
             // for(var iii=0;i<fileDst.length-1;iii++){
             //     fileDstName+=fileDst[iii]+'.';
             // }
-
+            newFileName =file + '-ixi-720p' + '.mp4';
             var command = ffmpeg().input(filePath + '/' + file)
-                .output(filePath + '/'+ '720p-ixi-' + file  + '.mp4')
+                .output(filePath + '-converted/'+ newFileName)
                 .videoCodec('libx264')
                 // .inputOptions('-preset fast')
                 .size('1280x?')
@@ -105,9 +116,10 @@ exports.convert720 = function (fileName, filePath) {
 
         }
     }
-    return files;
+    return newFileName;
 };
 exports.convert360 = function (fileName, filePath) {
+    var newFileName;
     const files = fs.readdirSync(filePath);
     for (let file of files) {
         if (file === fileName) {
@@ -118,9 +130,9 @@ exports.convert360 = function (fileName, filePath) {
             // for(var iii=0;i<fileDst.length-1;iii++){
             //     fileDstName+=fileDst[iii]+'.';
             // }
-
+            newFileName =file + '-ixi-360p' + '.mp4';
             var command = ffmpeg().input(filePath + '/' + file)
-                .output(filePath + '/'+ '360p-ixi-' + file + '.mp4')
+                .output(filePath + '-converted/'+ newFileName)
                 .videoCodec('libx264')
                 // .inputOptions('-preset fast')
                 .size('640x?')
