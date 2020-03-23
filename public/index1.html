@@ -1,29 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta property="locale" content="en_US">
-<title>Videojs playlist example</title>
-<meta property="og:title" content="Videojs playlist example">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Nuevodevel">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta property="locale" content="en_US">
+    <title>Videojs playlist example</title>
+    <meta property="og:title" content="Videojs playlist example">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Nuevodevel">
 
-<meta property="twitter:title" content="Videojs playlist example"/>
-<meta name="description" content="Unique playlist example for Videojs player with Nuevo plugin and Nuevo skin designed by Nuevodel.com" />
-<meta name="twitter:description" content="Unique playlist example for Videojs player with Nuevo plugin and Nuevo skin designed by Nuevodel.com">
-<meta name="twitter:site" content="@nuevodevel">
-<meta name="twitter:creator" content="@nuevodevel">
-<meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Videojs playlist example" />
+    <meta name="description"
+        content="Unique playlist example for Videojs player with Nuevo plugin and Nuevo skin designed by Nuevodel.com" />
+    <meta name="twitter:description"
+        content="Unique playlist example for Videojs player with Nuevo plugin and Nuevo skin designed by Nuevodel.com">
+    <meta name="twitter:site" content="@nuevodevel">
+    <meta name="twitter:creator" content="@nuevodevel">
+    <meta name="twitter:card" content="summary_large_image">
 
 
 
-<link rel="stylesheet" href="./nuevo/style.css" type="text/css">
-<script>var baseurl="https://www.nuevodevel.com";var cdnurl="https://cdn.nuevodevel.com";</script>
+    <link rel="stylesheet" href="./nuevo/style.css" type="text/css">
+    <script>
+        var baseurl = "https://www.nuevodevel.com";
+        var cdnurl = "https://cdn.nuevodevel.com";
+    </script>
 </head>
+
 <body>
-<!-- <header class="nav-container">
+    <!-- <header class="nav-container">
 
 <div class="nav nav-top">
 
@@ -69,216 +75,315 @@
 
 </div>
 </header> -->
-<main class="nuevo-container">
-<div class="nuevo-menu"><ul class="nuevo-nav"><li><a href="/nuevo/">ABOUT</a></li><li><a href="/nuevo/doc">DOCUMENTATION</a></li><li><a href="/nuevo/showcase">SHOWCASE</a></li><li><a href="/nuevo/skins">SKINS</a></li><li><a href="/nuevo/advertising">ADVERTISING</a></li><li class="active">PLAYLIST</li><li><a href="/nuevo/order">ORDER</a></li></ul></div>	<section class=" player page-in">
-	<h1 class="text-center">Nuevo playlist for Videojs test</h1>
-	<div class="media">
-	<link href="./nuevo/videojs.min.css" rel="stylesheet" type="text/css" />
-	<script src="./nuevo/related.js"></script>
-		<script src="./nuevo/nvideo.min.js"></script>
-		<video style="width:100%" id="veoplayer" class="video-js vjs-fluid vjs-default-skin" poster="https://cdn.nuevodevel.com/media/video/animals.jpg"  controls
-	 preload="none" playsinline></video>
-	</div>
-	</section>
+    <main class="nuevo-container">
+        <div class="nuevo-menu">
+            <ul class="nuevo-nav">
+                <li><a href="/nuevo/">ABOUT</a></li>
+                <li><a href="/nuevo/doc">DOCUMENTATION</a></li>
+                <li><a href="/nuevo/showcase">SHOWCASE</a></li>
+                <li><a href="/nuevo/skins">SKINS</a></li>
+                <li><a href="/nuevo/advertising">ADVERTISING</a></li>
+                <li class="active">PLAYLIST</li>
+                <li><a href="/nuevo/order">ORDER</a></li>
+            </ul>
+        </div>
+        <section class=" player page-in">
+            <h1 class="text-center">Nuevo playlist for Videojs test</h1>
+            <div class="media">
+                <link href="./nuevo/videojs.min.css" rel="stylesheet" type="text/css" />
+                <script src="./nuevo/related.js"></script>
+                <script src="./nuevo/nvideo.min.js"></script>
 
-	<section class="container bwhite">
-	<div class="article">
-	<script>
-		videojs.options.hls.overrideNative=true;videojs.options.html5.nativeAudioTracks=false;videojs.options.html5.nativeTextTracks=false;var player=videojs("veoplayer");
-	player.nuevo({related:related_videos,shareTitle:"Nuevo plugin for VideoJs Player",shareURL:"//nuevodevel.com/nuevo/playlist"});
-		var cdn='https://cdn.nuevodevel.com';
-	
+                <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
 
-	player.playlist([{
+                <video style="width:100%" id="veoplayer" class="video-js vjs-16-9 vjs-default-skin"
+                    poster="https://cdn.nuevodevel.com/media/video/animals.jpg" controls preload="none"
+                    playsinline></video>
+            </div>
+        </section>
 
-	  sources: [{
-	    src: 'https://devnuevo.com/media/video/animals_720.mp4',
-	    type: 'video/mp4',label:'720p',res: '720'
-	  },{
-	    src: 'https://devnuevo.com/media/video/animals_480.mp4',
-	    type: 'video/mp4', label:'480p',res: '480', default: 1
-	  },{
-	    src: 'https://devnuevo.com/media/video/animals_360.mp4',
-	    type: 'video/mp4', label:'360p',res: '360'
-	  },{
-	    src: 'https://devnuevo.com/media/video/animals_240.mp4',
-	    type: 'video/mp4', label:'240p',res: '240'
-	  }],
-	  url:'https://www.nuevodevel.com/nuevo/order',
-	  thumb: cdn+'/media/video/animals_thumb.jpg',
-	  title: 'Wild Animals are everywhere, every country every land',
-	  slideImage: cdn+'/media/video/animals_slide.jpg',
-	  duration: '03:04'
-	}, {
-	  sources: [{
-	    src: 'https://devnuevo.com/media/hls/redbull/m3u8/playlist.m3u8',
-	    type: 'application/x-mpegURL'
-	  }],
-	  url:'https://www.nuevodevel.com',
-	  thumb: cdn+'/media/hls/redbull/thumb.jpg',
-	  title: 'Red Bull Art of Motion (HLS)',
-	  duration: '03:30'
-	}, {
-	  sources: [{
-	    src: 'https://devnuevo.com/media/video/bmv_720.mp4',
-	    type: 'video/mp4', label:'720p',res: '720'
-	  },{
-	    src: 'https://devnuevo.com/media/video/bmv_360.mp4',
-	    type: 'video/mp4', label:'360p',res: '360', default: 1
-	  },{
-	    src: 'https://devnuevo.com/media/video/bmv_240.mp4',
-	    type: 'video/mp4', label:'240p',res: '240'
-	  }],
-	  thumb: cdn+'/media/video/bmv.jpg',
-	  slideImage: cdn+'/media/video/bmv_slide.jpg',
-	  title: 'BMW M4 - "Ultimate Racetrack"',
-	  duration: '01:09'
-	}, {
-	  sources: [{
-	    src: './nuevo/oops-20120802-manifest.mpd',
-	    type: 'application/dash+xml'
-	  },{
-	    src: './nuevo/ooops_360p.mp4',
-	    type: 'video/mp4'
-	  }],
-	  thumb: cdn+'/media/oops/thumb.jpg',
-	  title: 'Nexus Demo (MPEG-Dash)',
-	  duration: '04:02'
-	}, {
-	  sources: [{
-	    src: 'https://devnuevo.com/media/video/fit_1080.mp4',
-	    type: 'video/mp4',res: '1080',label: '1080p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/fit_720.mp4',
-	    type: 'video/mp4',res: '720',label: '720p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/fit_480.mp4',
-	    type: 'video/mp4',res: '480',label: '480p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/fit_360.mp4',
-	    type: 'video/mp4',res: '360',label: '360p', default: 1
-	  },{
-	    src: 'https://devnuevo.com/media/video/fit_240.mp4',
-	    type: 'video/mp4',res: '240',label: '240p'
-	  }],
-	  thumb: cdn+'/media/video/fit_thumb.jpg',
-	  slideImage: cdn+'/media/video/fit_slide.jpg',
-	  title: 'Fitness keeps you younger and healthy',
-	  duration: '01:33'
+        <section class="container bwhite">
+            <div class="article">
+                <script>
+                    videojs.options.hls.overrideNative = true;
+                    videojs.options.html5.nativeAudioTracks = false;
+                    videojs.options.html5.nativeTextTracks = false;
+                    var player = videojs("veoplayer");
+                    player.nuevo({
+                        related: related_videos,
+                        shareTitle: "Nuevo plugin for VideoJs Player",
+                        shareURL: "//nuevodevel.com/nuevo/playlist",
+                        playlistUI: true, // set to disable playlist UI completely
+	   playlistShow: true, // set to hide playlist UI on start
+	   playlistAutoHide: true, // Disable playlist UI autohide on video play event
+	   playlistNavigation: true , // set to show playlist navigation arrows
+       playlistRepeat: true, // set to repeat playlist playback
+       buttonForward: true,
+       shareMenu: false,
+       relatedMenu: false,
+       videoInfo: true,
+    //    contextMenu: false,
+    contextUrl: '/',                 
+       contextText: 'Short text, eg. Powered by...', 
+       contextIcon: '//www.domain.com/path/to/icon.png',
+                    });
+                    var cdn = 'https://cdn.nuevodevel.com';
+                    player.hotkeys({
+	volumeStep: 0.1,
+	seekStep: 5,
+	alwaysCaptureHotkeys: true
+});
 
-	}, {
-	  sources: [{
-	    src: 'https://devnuevo.com/media/video/big_buck_720.mp4',
-	    type: 'video/mp4',res: '720',label: '720p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/big_buck_480.mp4',
-	    type: 'video/mp4',res: '480',label: '480p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/big_buck_360.mp4',
-	    type: 'video/mp4',res: '360',label: '360p', default: 1
-	  },{
-	    src: 'https://devnuevo.com/media/video/big_buck_240.mp4',
-	    type: 'video/mp4',res: '240',label: '240p'
-	  }],
-	  thumb: cdn+'/media/video/big_buck_thumb.jpg',
-	  slideImage: cdn+'/media/video/big_buck_slide.jpg',
-	  title: 'Big Buck Bunny',
-	  duration: '02:17'
-	}, {
-	  sources: [{
-	    src: 'https://devnuevo.com/media/hls/blender/blender.m3u8',
-	    type: 'application/x-mpegURL'
+                    player.playlist([{
 
-	  }],
-	  thumb: cdn+'/media/hls/blender/blender.jpg',
-	  title: 'Blender HLS/Fragmented MP4',
-	  duration: '07:44'
-	},{
-	  sources: [{
-	    src: 'https://devnuevo.com/media/video/serenity_720.mp4',
-	    type: 'video/mp4',res: '720',label: '720p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/serenity_480.mp4',
-	    type: 'video/mp4',res: '480',label: '480p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/serenity_360.mp4',
-	    type: 'video/mp4',res: '360',label: '360p', default: 1
-	  },{
-	    src: 'https://devnuevo.com/media/video/serenity_240.mp4',
-	    type: 'video/mp4',res: '240',label: '240p'
-	  }],
-	  thumb: cdn+'/media/video/serenity_thumb.jpg',
-	  slideImage: cdn+'/media/video/serenity_slide.jpg',
-	  title: 'Serenity Movie Trailer',
-	  duration: '02:13'
-	},{
+                        sources: [{
+                            src: 'https://devnuevo.com/media/video/animals_720.mp4',
+                            type: 'video/mp4',
+                            label: '720p',
+                            res: '720'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/animals_480.mp4',
+                            type: 'video/mp4',
+                            label: '480p',
+                            res: '480',
+                            default: 1
+                        }, {
+                            src: 'https://devnuevo.com/media/video/animals_360.mp4',
+                            type: 'video/mp4',
+                            label: '360p',
+                            res: '360'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/animals_240.mp4',
+                            type: 'video/mp4',
+                            label: '240p',
+                            res: '240'
+                        }],
+                        url: 'https://www.nuevodevel.com/nuevo/order',
+                        thumb: cdn + '/media/video/animals_thumb.jpg',
+                        title: 'Wild Animals are everywhere, every country every land',
+                        slideImage: cdn + '/media/video/animals_slide.jpg',
+                        duration: '03:04'
+                    }, {
+                        sources: [{
+                            src: 'https://devnuevo.com/media/hls/redbull/m3u8/playlist.m3u8',
+                            type: 'application/x-mpegURL'
+                        }],
+                        url: 'https://www.nuevodevel.com',
+                        thumb: cdn + '/media/hls/redbull/thumb.jpg',
+                        title: 'Red Bull Art of Motion (HLS)',
+                        duration: '03:30'
+                    }, {
+                        sources: [{
+                            src: 'https://devnuevo.com/media/video/bmv_720.mp4',
+                            type: 'video/mp4',
+                            label: '720p',
+                            res: '720'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/bmv_360.mp4',
+                            type: 'video/mp4',
+                            label: '360p',
+                            res: '360',
+                            default: 1
+                        }, {
+                            src: 'https://devnuevo.com/media/video/bmv_240.mp4',
+                            type: 'video/mp4',
+                            label: '240p',
+                            res: '240'
+                        }],
+                        thumb: cdn + '/media/video/bmv.jpg',
+                        slideImage: cdn + '/media/video/bmv_slide.jpg',
+                        title: 'BMW M4 - "Ultimate Racetrack"',
+                        duration: '01:09'
+                    }, {
+                        sources: [{
+                            src: './nuevo/oops-20120802-manifest.mpd',
+                            type: 'application/dash+xml'
+                        }, {
+                            src: './nuevo/ooops_360p.mp4',
+                            type: 'video/mp4'
+                        }],
+                        thumb: cdn + '/media/oops/thumb.jpg',
+                        title: 'Nexus Demo (MPEG-Dash)',
+                        duration: '04:02'
+                    }, {
+                        sources: [{
+                            src: 'https://devnuevo.com/media/video/fit_1080.mp4',
+                            type: 'video/mp4',
+                            res: '1080',
+                            label: '1080p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/fit_720.mp4',
+                            type: 'video/mp4',
+                            res: '720',
+                            label: '720p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/fit_480.mp4',
+                            type: 'video/mp4',
+                            res: '480',
+                            label: '480p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/fit_360.mp4',
+                            type: 'video/mp4',
+                            res: '360',
+                            label: '360p',
+                            default: 1
+                        }, {
+                            src: 'https://devnuevo.com/media/video/fit_240.mp4',
+                            type: 'video/mp4',
+                            res: '240',
+                            label: '240p'
+                        }],
+                        thumb: cdn + '/media/video/fit_thumb.jpg',
+                        slideImage: cdn + '/media/video/fit_slide.jpg',
+                        title: 'Fitness keeps you younger and healthy',
+                        duration: '01:33'
 
-	  sources: [{
-	    src: 'https://devnuevo.com/media/video/cymaticjazz_720.mp4',
-	    type: 'video/mp4',res: '720',label: '720p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/cymaticjazz_480.mp4',
-	    type: 'video/mp4',res: '480',label: '480p'
-	  }, {
-	    src: 'https://devnuevo.com/media/video/cymaticjazz_360.mp4',
-	    type: 'video/mp4',res: '360',label: '360p', default: 1
-	  },{
-	    src: 'https://devnuevo.com/media/video/cymaticjazz_240.mp4',
-	    type: 'video/mp4',res: '240',label: '240p'
-	  }],
-	  thumb: cdn+'/media/video/cymaticjazz_thumb.jpg',
-	  slideImage: cdn+'/media/video/cymaticjazz_slide.jpg',
-	  title: 'LG Cymatic Jazz',
-	  duration: '02:35'
-	}
-	]);
-	
-	</script>
+                    }, {
+                        sources: [{
+                            src: 'https://devnuevo.com/media/video/big_buck_720.mp4',
+                            type: 'video/mp4',
+                            res: '720',
+                            label: '720p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/big_buck_480.mp4',
+                            type: 'video/mp4',
+                            res: '480',
+                            label: '480p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/big_buck_360.mp4',
+                            type: 'video/mp4',
+                            res: '360',
+                            label: '360p',
+                            default: 1
+                        }, {
+                            src: 'https://devnuevo.com/media/video/big_buck_240.mp4',
+                            type: 'video/mp4',
+                            res: '240',
+                            label: '240p'
+                        }],
+                        thumb: cdn + '/media/video/big_buck_thumb.jpg',
+                        slideImage: cdn + '/media/video/big_buck_slide.jpg',
+                        title: 'Big Buck Bunny',
+                        duration: '02:17'
+                    }, {
+                        sources: [{
+                            src: 'https://devnuevo.com/media/hls/blender/blender.m3u8',
+                            type: 'application/x-mpegURL'
+
+                        }],
+                        thumb: cdn + '/media/hls/blender/blender.jpg',
+                        title: 'Blender HLS/Fragmented MP4',
+                        duration: '07:44'
+                    }, {
+                        sources: [{
+                            src: 'https://devnuevo.com/media/video/serenity_720.mp4',
+                            type: 'video/mp4',
+                            res: '720',
+                            label: '720p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/serenity_480.mp4',
+                            type: 'video/mp4',
+                            res: '480',
+                            label: '480p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/serenity_360.mp4',
+                            type: 'video/mp4',
+                            res: '360',
+                            label: '360p',
+                            default: 1
+                        }, {
+                            src: 'https://devnuevo.com/media/video/serenity_240.mp4',
+                            type: 'video/mp4',
+                            res: '240',
+                            label: '240p'
+                        }],
+                        thumb: cdn + '/media/video/serenity_thumb.jpg',
+                        slideImage: cdn + '/media/video/serenity_slide.jpg',
+                        title: 'Serenity Movie Trailer',
+                        duration: '02:13'
+                    }, {
+
+                        sources: [{
+                            src: 'https://devnuevo.com/media/video/cymaticjazz_720.mp4',
+                            type: 'video/mp4',
+                            res: '720',
+                            label: '720p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/cymaticjazz_480.mp4',
+                            type: 'video/mp4',
+                            res: '480',
+                            label: '480p'
+                        }, {
+                            src: 'https://devnuevo.com/media/video/cymaticjazz_360.mp4',
+                            type: 'video/mp4',
+                            res: '360',
+                            label: '360p',
+                            default: 1
+                        }, {
+                            src: 'https://devnuevo.com/media/video/cymaticjazz_240.mp4',
+                            type: 'video/mp4',
+                            res: '240',
+                            label: '240p'
+                        }],
+                        thumb: cdn + '/media/video/cymaticjazz_thumb.jpg',
+                        slideImage: cdn + '/media/video/cymaticjazz_slide.jpg',
+                        title: 'LG Cymatic Jazz',
+                        duration: '02:35'
+                    }]);
+                </script>
 
 
-	<h2 class="text-center">Nuevo playlist for videojs</h2>
+                <h2 class="text-center">Nuevo playlist for videojs</h2>
 
 
-	Nuevo plugin includes built in unique option to show and play a playlist of videos.<br />
-	Nuevo playlist differs in layout from playlists offered by other players. Usually playlist is presented as separate HTML container positioned on right side of player or below. However this often doesn't look good on every browser and device.<br />
-	Nuevo playlist is overlayed on player with option to show/hide while playing video. It is safe to show even on narrow browser on mobile device in portrait mode.<br />
-	By default before video playback the playlist is visible, however you can order to hide it and show only playlist icon. You can even hide playlist container completely and show only playlist navigation arrows to play next or previous video from the list.<br /><br />
-	Nuevo playlist is also enough advanced to support multiple video formats like standard MP4 in multiple resolutions, HLS/m3u8, HLS/fragmented MP4, mpeg/DASH or even Live stream.<br />
-	Videos from the playlist are played in auto-advance mode. One of useful playlist functions is to set "repeat" option. This will force player to restart playback from first playlist item once last video finished.<br /><br />
+                Nuevo plugin includes built in unique option to show and play a playlist of videos.<br />
+                Nuevo playlist differs in layout from playlists offered by other players. Usually playlist is presented
+                as separate HTML container positioned on right side of player or below. However this often doesn't look
+                good on every browser and device.<br />
+                Nuevo playlist is overlayed on player with option to show/hide while playing video. It is safe to show
+                even on narrow browser on mobile device in portrait mode.<br />
+                By default before video playback the playlist is visible, however you can order to hide it and show only
+                playlist icon. You can even hide playlist container completely and show only playlist navigation arrows
+                to play next or previous video from the list.<br /><br />
+                Nuevo playlist is also enough advanced to support multiple video formats like standard MP4 in multiple
+                resolutions, HLS/m3u8, HLS/fragmented MP4, mpeg/DASH or even Live stream.<br />
+                Videos from the playlist are played in auto-advance mode. One of useful playlist functions is to set
+                "repeat" option. This will force player to restart playback from first playlist item once last video
+                finished.<br /><br />
 
-	<form method="POST" action = "/nuevo/playlist">
-	<input type="hidden" name="settings" value="1" />
-	<div class="pl-form">
-	  <label class="toggle">
-		<input name="ui" type="checkbox" checked="checked">
-		<span class="slide-toggle"></span>
-		<span>Show/Hhide playlist UI</span>
-	  </label>
-	  <label class="toggle">
-		<input name="show" type="checkbox" checked="checked">
-		<span class="slide-toggle"></span>
-		<span>Show Playlist UI on initial display</span>
-	  </label>
-	  <label class="toggle">
-		<input name="autohide" type="checkbox" checked="checked">
-		<span class="slide-toggle"></span>
-		<span>Playlist autohide on video play event</span>
-	  </label>
-	  <label class="toggle">
-		<input name="nav" type="checkbox">
-		<span class="slide-toggle"></span>
-		<span>Show Playlist navigation arrows</span>
-	  </label>
-	  <label class="toggle">
-		<input name="repeat" type="checkbox">
-		<span class="slide-toggle"></span>
-		<span>Playlist repeat</span>
-	  </label>
-	  <div class="action"><input type="submit" class="btn btn-submit" value="Refresh" /></div>
-	</div>
-	</form>
-	<strong>Example player and video playlist setup.</strong><br /><br />
-	<!-- <pre class="wiki">
+                <form method="POST" action="/nuevo/playlist">
+                    <input type="hidden" name="settings" value="1" />
+                    <div class="pl-form">
+                        <label class="toggle">
+                            <input name="ui" type="checkbox" checked="checked">
+                            <span class="slide-toggle"></span>
+                            <span>Show/Hhide playlist UI</span>
+                        </label>
+                        <label class="toggle">
+                            <input name="show" type="checkbox" checked="checked">
+                            <span class="slide-toggle"></span>
+                            <span>Show Playlist UI on initial display</span>
+                        </label>
+                        <label class="toggle">
+                            <input name="autohide" type="checkbox" checked="checked">
+                            <span class="slide-toggle"></span>
+                            <span>Playlist autohide on video play event</span>
+                        </label>
+                        <label class="toggle">
+                            <input name="nav" type="checkbox">
+                            <span class="slide-toggle"></span>
+                            <span>Show Playlist navigation arrows</span>
+                        </label>
+                        <label class="toggle">
+                            <input name="repeat" type="checkbox">
+                            <span class="slide-toggle"></span>
+                            <span>Playlist repeat</span>
+                        </label>
+                        <div class="action"><input type="submit" class="btn btn-submit" value="Refresh" /></div>
+                    </div>
+                </form>
+                <strong>Example player and video playlist setup.</strong><br /><br />
+                <!-- <pre class="wiki">
 	
 	<span class="wiki-comment">// Load player skin css stylesheet inside &lt;head&gt; section of your webite</span>
 
@@ -349,16 +454,17 @@
 
 
 
-	</div>
-	</section>
-<!-- <div class="nuevo-footer"><div class="wrap">Nuevo Plugin for Videojs <a href="/nuevo/order" class="btn btn-navy get">GET IT HERE</a></div></div></main> -->
+            </div>
+        </section>
+        <!-- <div class="nuevo-footer"><div class="wrap">Nuevo Plugin for Videojs <a href="/nuevo/order" class="btn btn-navy get">GET IT HERE</a></div></div></main> -->
 
 
-<!-- <footer class="footer"><ul class="global-row"><li class="col"><ul><li><a href="/nuevo/"><span class="fblock">NUEVO</span><span>Advanced ultimate plugin &amp; skins for videojs player.</span></a></li></ul></li><li class="col"><ul><li><a href="/plugins/"><span class="fblock">PLUGINS</span><span>Dedicated global plugins for videojs framework.</span></a></li></ul></li><li class="col"><ul><li><a href="/tools/"><span class="fblock">DEV TOOLS</span><span>Player stream tester, generators, converters and other useful tools</span></a></li></ul></li><li class="col"><ul><li><span class="fblock">SUPPORT</span><span><a href="/blog/">Blog</a>, articles, tips, <a href="/clientarea">clientarea</a>,<br />Ticket system, <a href="/contact">Contact Form</a></span></li></ul></li></ul><div class="rules"><a href="/tos">Terms of Service</a> <a href="/privacy">Privacy Policy</a> <a href="/contact">Contact Us</a><div class="copyright">&copy; 2008-2020 Nuevo Development, Inc. All Rights Reserved.</div></div><div class="scroll-top"></div></footer> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- <footer class="footer"><ul class="global-row"><li class="col"><ul><li><a href="/nuevo/"><span class="fblock">NUEVO</span><span>Advanced ultimate plugin &amp; skins for videojs player.</span></a></li></ul></li><li class="col"><ul><li><a href="/plugins/"><span class="fblock">PLUGINS</span><span>Dedicated global plugins for videojs framework.</span></a></li></ul></li><li class="col"><ul><li><a href="/tools/"><span class="fblock">DEV TOOLS</span><span>Player stream tester, generators, converters and other useful tools</span></a></li></ul></li><li class="col"><ul><li><span class="fblock">SUPPORT</span><span><a href="/blog/">Blog</a>, articles, tips, <a href="/clientarea">clientarea</a>,<br />Ticket system, <a href="/contact">Contact Form</a></span></li></ul></li></ul><div class="rules"><a href="/tos">Terms of Service</a> <a href="/privacy">Privacy Policy</a> <a href="/contact">Contact Us</a><div class="copyright">&copy; 2008-2020 Nuevo Development, Inc. All Rights Reserved.</div></div><div class="scroll-top"></div></footer> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
-<!-- <script defer src="https://cdn.nuevodevel.com/js/global.min.js"></script> -->
+        <!-- <script defer src="https://cdn.nuevodevel.com/js/global.min.js"></script> -->
 
 </body>
+
 </html>
