@@ -5,7 +5,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "@bnnvara/videojs-qualityselector": "0.0.5",
+    "browserify": "^16.2.3",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@videojs/themes": "^1.0.0",
     "connect-multiparty": "^2.2.0",
@@ -16,10 +16,14 @@
     "jquery": "^3.4.1",
     "jquery-ui-dist": "^1.12.1",
     "path": "^0.12.7",
-    "socket.io": "^2.3.0",
     "videojs-playlist": "^4.3.1",
     "videojs-qualityselector": "0.0.4",
-    "videojs-resolution-switcher": "^0.4.2"
+    "videojs-resolution-switcher": "^0.4.2",
+    "sassify": "^4.0.1",
+    "scssify": "^3.0.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.1.1",
+    "watchify": "^3.11.1"
   },
   "devDependencies": {
     "video.js": "^7.6.6"
