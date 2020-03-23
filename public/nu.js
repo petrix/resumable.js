@@ -1,40 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./nuevo/style.css" type="text/css">
+require('scssify');
 
-    <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-</head>
-<body>
-    <!-- <script src="/jquery/dist/jquery.min.js"></script> -->
-   
-     <div id="frame">
-       <section class=" player page-in">
-         <div class="media">
-             <video style="width:100%" id="veoplayer" class="video-js vjs-16-9 vjs-default-skin"
-                 poster="https://cdn.nuevodevel.com/media/video/animals.jpg" controls preload="none"
-                 playsinline></video>
-         </div>
-     </section>
-       <div class="resumable-drop">
-         Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
-       </div>
-   
-       <div class="fileList">
-         <ul class="resumable-list"></ul>
-       </div>
-       <div class="footer"></div>
-     </div>
-     <div>
-       <div class="performance-result"></div>
-     </div>
-   
-    <script src="./bundle.js"></script>
-    <script>
-        videojs.options.hls.overrideNative = true;
+var $ = require('jquery');
+var videojs = require('./nuevo/nvideo2.min');
+var hotkeys = require('./nuevo/videojs.hotkeys');
+
+
+// var 
+// var videojs = require('video.js');
+videojs.options.hls.overrideNative = true;
 videojs.options.html5.nativeAudioTracks = false;
 videojs.options.html5.nativeTextTracks = false;
 var player = videojs("veoplayer");
@@ -261,6 +234,4 @@ player.playlist([{
     title: 'LG Cymatic Jazz',
     duration: '02:35'
 }]);
-    </script>
-</body>
-</html>
+// player.chromecast();
