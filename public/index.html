@@ -8,9 +8,9 @@
 
   <link rel="shortcut icon" href='./images/favicon.ico'>
 
+  <link rel="stylesheet" href="./nuevo/style.css" type="text/css">
 
   <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-  <!-- <link rel="stylesheet" href="./nuevo/style.css" type="text/css"> -->
   <script>
       var baseurl = "https://www.nuevodevel.com";
       var cdnurl = "https://cdn.nuevodevel.com";
@@ -18,7 +18,7 @@
    
  <!-- <link rel="stylesheet" href="/vjs-themes/forest/index.css"> -->
 
- <script src="/jquery/dist/jquery.min.js"></script>
+
  <!-- <script src="/video-js/video.min.js"></script>
  <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
  
@@ -27,32 +27,29 @@
 
 
 
+
   <!-- <script src="./scripts/video-speed.js"></script> -->
 </head>
 
 <body>
-  <div id="frame" class="player page-in">
-     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+ <script src="/jquery/dist/jquery.min.js"></script>
 
- <link href="./nuevo/skins/pinko/videojs.min.css" rel="stylesheet" type="text/css" />
- <script src="./nuevo/related.js"></script>
- <script src="./nuevo/nvideo.min.js"></script>
+  <div id="frame">
+    <section class=" player page-in">
+      <div class="media">
+          <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
- <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
- <script src="./nuevo/plugins/videojs-chromecast.min.js"></script>
+          <link href="./nuevo/videojs.min.css" rel="stylesheet" type="text/css" />
+          <script src="./nuevo/related.js"></script>
+          <script src="./nuevo/nvideo.min.js"></script>
 
-    <div class="videoWindow">
-      <!-- video-js vjs-fluid vjs-default-skin veoplayer-dimensions vjs-controls-enabled vjs-workinghover vjs-v7 vjs-has-started vjs-paused vjs-user-inactive -->
-      <video style="width:100%" id="veoplayer" poster='https://vjs.zencdn.net/v/oceans.png' class="video-js vjs-16-9 vjs-default-skin" controls muted autoplay>
-        <!-- <video id="videoPlayer" poster='https://vjs.zencdn.net/v/oceans.png' class="videoPlayer video-js vjs-default-skin" controls muted autoplay> -->
-        <source src="/statics/Pretty-Woman_-A-XXX-Parody_1.mp4" type="video/mp4">
-      </video>
-      
-      <div class="video-info">
-        <p>MEDIA INFO:</p>
+          <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
+          <script src="./nuevo/plugins/videojs-chromecast.min.js"></script>
+          <video style="width:100%" id="veoplayer" class="video-js vjs-16-9 vjs-default-skin"
+              poster="https://cdn.nuevodevel.com/media/video/animals.jpg" controls preload="none"
+              playsinline></video>
       </div>
-      
-    </div>
+  </section>
     <div class="resumable-drop">
       Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
     </div>
@@ -72,22 +69,17 @@
 
 
 
- 
-
-  <script src="./scripts/resumable.js"></script>
-  <script src="./scripts/actions-jq.js" defer></script>
-  <!-- </footer> -->
-  <script>
+   <script>
     videojs.options.hls.overrideNative = true;
     videojs.options.html5.nativeAudioTracks = false;
     videojs.options.html5.nativeTextTracks = false;
     var player = videojs("veoplayer");
     player.nuevo({
-        related: related_videos,
+        // related: related_videos,
         shareTitle: "Nuevo plugin for VideoJs Player",
         shareURL: "//nuevodevel.com/nuevo/playlist",
         playlistUI: true, // set to disable playlist UI completely
-        playlistShow: true, // set to hide playlist UI on start
+        playlistShow: false, // set to hide playlist UI on start
         playlistAutoHide: true, // Disable playlist UI autohide on video play event
         playlistNavigation: true, // set to show playlist navigation arrows
         playlistRepeat: true, // set to repeat playlist playback
@@ -98,7 +90,7 @@
         //    contextMenu: false,
         contextUrl: '#',
         contextText: 'Short text, eg. Powered by...',
-        contextIcon: '//www.domain.com/path/to/icon.png',
+        // contextIcon: '//www.domain.com/path/to/icon.png',
     });
     var cdn = 'https://cdn.nuevodevel.com';
     player.hotkeys({
@@ -305,6 +297,11 @@
     }]);
     player.chromecast();
 </script>
+
+  <script src="./scripts/resumable.js"></script>
+  <!-- <script src="./scripts/actions-jq.js" defer></script> -->
+  <!-- </footer> -->
+
 </body>
 
 </html>
