@@ -12,31 +12,31 @@ function cryptoId(name) {
         .update(name)
         .digest('hex')
 }
-var io;
-var date
-exports.init = function(newIO){
-    io = newIO;
-    var int;
-    io.on('connection',function(socket){
-        console.log(socket)
-    //     clearInterval(int);
-    //         int = setInterval(function(){
-    //         date = +new Date().getTime();
-    //     socket.emit('clock',date);
-    //     console.log(date);
-    // },500)
-    socket.on('disconnect',function(){
-        console.log('disconnected');
-    })
-    });
+// var io;
+// var date
+// exports.init = function(newIO){
+//     io = newIO;
+//     var int;
+//     io.on('connection',function(socket){
+//         console.log(socket)
+//     //     clearInterval(int);
+//     //         int = setInterval(function(){
+//     //         date = +new Date().getTime();
+//     //     socket.emit('clock',date);
+//     //     console.log(date);
+//     // },500)
+//     socket.on('disconnect',function(){
+//         console.log('disconnected');
+//     })
+//     });
 
 
-}
+// }
 exports.get = function (req, res) {
 
     switch (req.url.split('?')[0]) {
-        case '/convert720':
-            console.log('/convert720', req.query.filename);
+        case '/convert720p':
+            console.log('/convert720p', req.query.filename);
             // res.send(fileUpload.readFile(checkFolder));
             var fileId = cryptoId(req.query.filename);
             try {
@@ -48,8 +48,8 @@ exports.get = function (req, res) {
                 console.error(err);
             }
             break;
-        case '/convert360':
-            console.log('/convert360', req.query.filename);
+        case '/convert360p':
+            console.log('/convert360p', req.query.filename);
             // res.send(fileUpload.readFile(checkFolder));
             var fileId = cryptoId(req.query.filename);
             try {

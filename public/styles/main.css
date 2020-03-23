@@ -355,12 +355,6 @@ iframe {
     background-color: rgba(153, 0, 0, 0.6);
 }
 
-.is-error .uploader-item-creating-thumbnail {
-    /* /* display:none; */
-    
-}
-
-
 #frame {
     max-width: 1000px;
     width: 100%;
@@ -376,10 +370,10 @@ iframe {
     /* height: 500px; */
 }
 .videoPlayer{
-    height: 400px;
+    /* height: 400px; */
 }
 .video-info{
-    width: 30%;
+    width: 0%;
 }
 
 
@@ -421,11 +415,14 @@ iframe {
 .resumable-list li a {
     text-decoration: none;
 }
-.convert360{
-    background-color: rgb(255, 202, 123);
+.convert360p{
+    background-color: #ffca7b;
 }
-.convert720{
-    background-color: rgb(255, 151, 125);
+.convert720p{
+    background-color: #ff977d;
+}
+.convert1080p{
+    background-color: #ff6c47;
 }
 .resumable-list li button {
     font-family: 'Jura';

@@ -1,5 +1,5 @@
 
-module.exports = function(http,app){
+module.exports = function(app){
 // var io = require('socket.io')(http);
     const mainPageRoute = require('./main');
     app.get('/', mainPageRoute.get);
@@ -10,8 +10,9 @@ module.exports = function(http,app){
     app.get('/socket.io', uploadRoute.get);
     app.post('/socket.io', uploadRoute.post);
     app.get('/rmFile', uploadRoute.get);
-    app.get('/convert720', uploadRoute.get);
-    app.get('/convert360', uploadRoute.get);    
+    app.get('/convert1080p', uploadRoute.get);
+    app.get('/convert720p', uploadRoute.get);
+    app.get('/convert360p', uploadRoute.get);    
     app.get('/getConverted', uploadRoute.get);
     app.post('/getfn', uploadRoute.post);
     app.get('/upload', uploadRoute.get);
