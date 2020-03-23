@@ -90,12 +90,14 @@
         <section class=" player page-in">
             <h1 class="text-center">Nuevo playlist for Videojs test</h1>
             <div class="media">
+                <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
                 <link href="./nuevo/videojs.min.css" rel="stylesheet" type="text/css" />
                 <script src="./nuevo/related.js"></script>
                 <script src="./nuevo/nvideo.min.js"></script>
 
                 <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
-
+                <script src="./nuevo/plugins/videojs-chromecast.min.js"></script>
                 <video style="width:100%" id="veoplayer" class="video-js vjs-16-9 vjs-default-skin"
                     poster="https://cdn.nuevodevel.com/media/video/animals.jpg" controls preload="none"
                     playsinline></video>
@@ -114,25 +116,25 @@
                         shareTitle: "Nuevo plugin for VideoJs Player",
                         shareURL: "//nuevodevel.com/nuevo/playlist",
                         playlistUI: true, // set to disable playlist UI completely
-	   playlistShow: true, // set to hide playlist UI on start
-	   playlistAutoHide: true, // Disable playlist UI autohide on video play event
-	   playlistNavigation: true , // set to show playlist navigation arrows
-       playlistRepeat: true, // set to repeat playlist playback
-       buttonForward: true,
-       shareMenu: false,
-       relatedMenu: false,
-       videoInfo: true,
-    //    contextMenu: false,
-    contextUrl: '/',                 
-       contextText: 'Short text, eg. Powered by...', 
-       contextIcon: '//www.domain.com/path/to/icon.png',
+                        playlistShow: true, // set to hide playlist UI on start
+                        playlistAutoHide: true, // Disable playlist UI autohide on video play event
+                        playlistNavigation: true, // set to show playlist navigation arrows
+                        playlistRepeat: true, // set to repeat playlist playback
+                        buttonForward: true,
+                        shareMenu: false,
+                        relatedMenu: false,
+                        videoInfo: true,
+                        //    contextMenu: false,
+                        contextUrl: '#',
+                        contextText: 'Short text, eg. Powered by...',
+                        contextIcon: '//www.domain.com/path/to/icon.png',
                     });
                     var cdn = 'https://cdn.nuevodevel.com';
                     player.hotkeys({
-	volumeStep: 0.1,
-	seekStep: 5,
-	alwaysCaptureHotkeys: true
-});
+                        volumeStep: 0.1,
+                        seekStep: 5,
+                        alwaysCaptureHotkeys: true
+                    });
 
                     player.playlist([{
 
@@ -330,6 +332,7 @@
                         title: 'LG Cymatic Jazz',
                         duration: '02:35'
                     }]);
+                    player.chromecast();
                 </script>
 
 
