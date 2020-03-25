@@ -1,13 +1,14 @@
-;(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define([], factory.bind(this, root, root.videojs));
-  } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory(root, root.videojs);
+(function(){
+
+  'use strict';
+  var videojs = null;
+  if(typeof window.videojs === 'undefined' && typeof require === 'function') {
+    videojs = require('video.js');
   } else {
-    factory(root, root.videojs);
+    videojs = window.videojs;
   }
 
-})(window, function(window, videojs) {
+(function(window, videojs) {
   "use strict";
   window['videojs_hotkeys'] = { version: "0.2.16" };
 
@@ -370,4 +371,6 @@
   };
 
   videojs.registerPlugin('hotkeys', hotkeys);
-});
+})(window,videojs);
+
+})();

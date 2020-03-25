@@ -14,7 +14,7 @@ var http = require('http');
 //   console.log('a user connected');
 // });
 // Host most stuff in the public folder
-app.use('/jquery', express.static(__dirname + '/node_modules/jquery'));
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui-dist'));
 app.use('/video-js', express.static(__dirname + '/node_modules/video.js/dist'));
 app.use('/vjs-themes', express.static(__dirname + '/node_modules/@videojs/themes/dist'));
