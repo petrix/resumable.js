@@ -8,11 +8,7 @@ var statePaused = false;
 
 var io = require('socket.io-client');
 var sPath = window.location.hostname;
-var dirCountDownIO = io.connect('http://' + sPath + ':3333/', {
-    secure: true,
-    reconnect: true,
-    rejectUnauthorized: false
-});
+var dirCountDownIO = io.connect('http://' + sPath + ':3333/');
 
 
 dirCountDownIO.on('disconnect', (reason) => {
