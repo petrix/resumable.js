@@ -35,6 +35,19 @@ function cryptoId(name) {
 exports.get = function (req, res) {
 
     switch (req.url.split('?')[0]) {
+        case '/convert1080p':
+            console.log('/convert1080p', req.query.filename);
+            // res.send(fileUpload.readFile(checkFolder));
+            var fileId = cryptoId(req.query.filename);
+            try {
+                fileUpload.convert1080(req.query.filename, checkFolder, function (result) {
+                    res.send(result);
+                });
+
+            } catch (err) {
+                console.error(err);
+            }
+            break;
         case '/convert720p':
             console.log('/convert720p', req.query.filename);
             // res.send(fileUpload.readFile(checkFolder));

@@ -6,13 +6,13 @@ var multipart = require('connect-multiparty');
 // var multipartMiddleware = multipart();
 var crypto = require('crypto');
 var app = express();
-var http = require('http');
-// var http = require('http').createServer(app);
+// var http = require('http');
+var http = require('http').createServer(app);
 
-// var io = require('socket.io')(http);
-// io.on('connection', function(socket){
-//   console.log('a user connected');
-// });
+var io = require('socket.io')(http);
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
 // Host most stuff in the public folder
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui-dist'));

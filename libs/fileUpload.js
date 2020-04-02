@@ -85,7 +85,38 @@ exports.removeFile = function (fileName, filePath) {
 };
 var convertingItems = [];
 var convertingCount = 0;
+exports.convert1080 = function (fileName, filePath) {
+    const files = fs.readdirSync(filePath);
+    var newFileName;
+    for (let file of files) {
+        if (file === fileName) {
 
+            var fileDst = file.split('.');
+            console.log(fileDst);
+
+            // for(var iii=0;i<fileDst.length-1;iii++){
+            //     fileDstName+=fileDst[iii]+'.';
+            // }
+            newFileName =file + '-ixi-1080p' + '.mp4';
+            var command = ffmpeg().input(filePath + '/' + file)
+                .output(filePath + '-converted/'+ newFileName)
+                .videoCodec('libx264')
+                // .inputOptions('-preset fast')
+                .size('1920x?')
+                .audioCodec('aac')
+                .keepDAR()
+                .on('progress', ffmpegOnProgress(logProgress))
+                .on('start', commandLine => console.log('start', commandLine))
+                // .on('codecData', codecData => console.log('codecData', codecData))
+                .on('error', error => console.log('error', error))
+                // .on('stderr', stderr => console.log('stderr', stderr))
+                .on('end', end => console.log('end', end))
+                .run();
+
+        }
+    }
+    return newFileName;
+};
 exports.convert720 = function (fileName, filePath) {
     const files = fs.readdirSync(filePath);
     var newFileName;

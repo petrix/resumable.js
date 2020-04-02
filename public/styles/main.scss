@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Jura:400,700&display=swap&subset=cyrillic,cyrillic-ext');
 
 @import url('../fonts/DS-Digital.css');
+@import url('../styles/range.scss');
+
 
 
 * {
@@ -558,9 +560,19 @@ button {
             // font-family: 'FontAwesome';
             &>button {
                 width: 100px;
-
-                &>span {
-
+                border: 2px solid black;
+                border-radius: 10px;
+                margin: 10px 5px;
+                font-size: 20px;
+                font-weight: bold;
+                color: #000;
+                                &.play{
+                    background-color: green;
+                    color: #fff;
+                }
+                &.playActive{
+                    background-color: brown;
+                    color: #fff;
                 }
 
             }
@@ -573,7 +585,7 @@ button {
             font-family: 'DS-Digital';
             font-weight: bold;
             font-size: 70px;
-            line-height: 80%;
+            line-height: 70%;
         }
 
     }

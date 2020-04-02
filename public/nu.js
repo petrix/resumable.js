@@ -3,47 +3,80 @@ var $ = require('jquery');
 var Resumable = require('./scripts/resumable');
 require('./styles/main.scss');
 // require('./fonts/DS-Digital.css');
+var statePlaying = false;
+var statePaused = false;
 
+var io = require('socket.io-client');
+var sPath = window.location.hostname;
+var dirCountDownIO = io.connect('http://' + sPath + ':3333/', {
+    secure: true,
+    reconnect: true,
+    rejectUnauthorized: false
+});
+
+
+dirCountDownIO.on('disconnect', (reason) => {
+    if (reason === 'io server disconnect') {
+        console.log('disconnected');
+    }
+});
 
 var videoPlayer = document.querySelector('#videoplayer');
 var progress = document.querySelector('#progress');
 videoPlayer.ontimeupdate = progressUpdate;
 progress.onmousedown = videoPlayhead;
+
 function progressUpdate() {
     var d = videoPlayer.duration;
     var c = videoPlayer.currentTime;
-    var val = (100*c)/d;
-    console.log(c,d,val);
+    var val = (100 * c) / d;
+    // console.log(c, d, val);
     progress.value = val;
     $('.currentTime').html(timeToTC(c));
     $('.totalTime').html(timeToTC(d));
 }
+
 function videoPlayhead() {
     var w = this.offsetWidth;
     var o = event.offsetX;
-    console.log(o,w)
+    console.log(o, w)
     this.value = 100 * o / w;
     videoPlayer.pause();
-    videoPlayer.currentTime = videoPlayer.duration * (o/w);
-    videoPlayer.play();
-}
-function videoPlay(){
-videoPlayer.play();
-}
-function videoPause(){
-videoPlayer.pause();
-}
-function videoStop(){
-videoPlayer.pause();
-videoPlayer.currentTime = 0;
+    videoPlayer.currentTime = videoPlayer.duration * (o / w);
+    if (statePlaying) {
+        videoPlayer.play();
+
+    }
 }
 
-$('.navigationButtons').on('mousedown' || 'click' || 'dbclick', 'button', function(){
-    if($(this).hasClass('play')){
+function videoPlay() {
+    if(!statePlaying){
+        videoPlayer.play();
+    $('.play').addClass('playActive').text('PAUSE');
+    statePlaying = true;
+    }else{
+        videoPlayer.pause();
+    $('.play').removeClass('playActive').text('PLAY');
+        statePlaying = false;
+    }
+    
+
+    // statePaused = false;
+    // statePlaying = true;
+}
+
+
+function videoStop() {
+    videoPlayer.pause();
+    videoPlayer.currentTime = 0;
+    $('.play').removeClass('playActive').text('PLAY');
+    statePlaying = false;
+}
+
+$('.navigationButtons').on('mousedown' || 'click' || 'dbclick', 'button', function () {
+    if ($(this).hasClass('play')) {
         videoPlay();
-    }else if($(this).hasClass('pause')){
-        videoPause();
-    }else if($(this).hasClass('stop')){
+    } else if ($(this).hasClass('stop')) {
         videoStop();
     }
 
@@ -173,7 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     .children(`.convert${convRes[1]}-${item.split('#')[2]}`).attr({
                                         'disabled': true
                                     });
-                            } else if (response[xx].split('-ixi-')[2].split('.')[0] == convRes[2]) {
+                                    // console.log(response[xx].split('-ixi-')[1]);
+                            } else if (response[xx].split('-ixi-')[1].split('.')[0] == convRes[2]) {
                                 $(`.resumable-file-${item.split('#')[2]}`)
                                     .children('.resumable-file-progress')
                                     .children(`.convert${convRes[2]}-${item.split('#')[2]}`).attr({
@@ -212,7 +246,7 @@ var r = new Resumable({
 });
 
 $('.resumable-list').on('click' || 'mousedown', 'p', function () {
-    var filename = "/CONV/" + $(this).text() + '-ixi-720p.mp4';
+    var filename = "/CONV/" + $(this).text() + '-ixi-360p.mp4';
     videoPlayer.src = filename;
     videoPlayer.play();
 }).on('click', 'button', function () {
