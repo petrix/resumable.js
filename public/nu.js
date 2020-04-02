@@ -1,24 +1,73 @@
 require('scssify');
 var $ = require('jquery');
-// var Plyr = require('plyr');
-var videojs = require('video.js');
-require('webrtc')
-// var videojs = require('./nuevo/nvideo-xx');
 var Resumable = require('./scripts/resumable');
 require('./styles/main.scss');
+// require('./fonts/DS-Digital.css');
 
-// require('./nuevo/videojs-RS');
-// require('./nuevo/videojs.hotkeys');
-// require('videojs-contrib-quality-levels');
-// require('videojs-http-source-selector');
-require('videojs-resolution-switcher');
-// require('./nuevo/skins/pinko/videojs.min.css');
 
-// const hotkeys = videojs.getPlugin('')
-//  var player = new Plyr('#videoplayer',function(){
+var videoPlayer = document.querySelector('#videoplayer');
+var progress = document.querySelector('#progress');
+videoPlayer.ontimeupdate = progressUpdate;
+progress.onmousedown = videoPlayhead;
+function progressUpdate() {
+    var d = videoPlayer.duration;
+    var c = videoPlayer.currentTime;
+    var val = (100*c)/d;
+    console.log(c,d,val);
+    progress.value = val;
+    $('.currentTime').html(timeToTC(c));
+    $('.totalTime').html(timeToTC(d));
+}
+function videoPlayhead() {
+    var w = this.offsetWidth;
+    var o = event.offsetX;
+    console.log(o,w)
+    this.value = 100 * o / w;
+    videoPlayer.pause();
+    videoPlayer.currentTime = videoPlayer.duration * (o/w);
+    videoPlayer.play();
+}
+function videoPlay(){
+videoPlayer.play();
+}
+function videoPause(){
+videoPlayer.pause();
+}
+function videoStop(){
+videoPlayer.pause();
+videoPlayer.currentTime = 0;
+}
 
-//  });
+$('.navigationButtons').on('mousedown' || 'click' || 'dbclick', 'button', function(){
+    if($(this).hasClass('play')){
+        videoPlay();
+    }else if($(this).hasClass('pause')){
+        videoPause();
+    }else if($(this).hasClass('stop')){
+        videoStop();
+    }
 
+});
+
+
+
+
+
+function timeToTC(dataDuration) {
+    (dataDuration > 0) ? hours = Math.floor(dataDuration / 3600): hours = Math.abs(Math.ceil(dataDuration / 3600));
+    (dataDuration > 0) ? minutes = Math.floor((dataDuration - hours * 3600) / 60): minutes = Math.abs(Math.ceil((dataDuration - hours * 3600) / 60));
+    (dataDuration > 0) ? seconds = dataDuration - (minutes * 60 + hours * 3600): seconds = Math.abs(dataDuration - (minutes * 60 + hours * 3600));
+    seconds = Math.floor(seconds);
+    hours = ((hours < 10 && hours >= 0) ? "0" : "") + hours;
+    minutes = ((minutes < 10 && minutes >= 0) ? "0" : "") + minutes;
+    if (dataDuration < 0) {
+        hours = "-" + hours;
+    }
+    seconds = ((seconds < 10 && seconds >= 0) ? "0" : "") + seconds;
+
+    // $('.currentTime').text(hours + ':' + minutes + ':' + seconds);
+    return hours + ':' + minutes + ':' + seconds;
+}
 
 function generateId(file) {
     var ret = $.ajax({
@@ -164,39 +213,8 @@ var r = new Resumable({
 
 $('.resumable-list').on('click' || 'mousedown', 'p', function () {
     var filename = "/CONV/" + $(this).text() + '-ixi-720p.mp4';
-    player = videojs('#videoplayer');
-    // player = videojs('#veoplayer');
-    player.src([{
-        aspectRatio: '16:9',
-        type: 'video/mp4',
-        src: filename
-    }]);
-    // console.log($("#videoPlayer").children('.vjs-control-bar').children('.vjs-quality-container'));
-    // $("#videoPlayer").children('.vjs-control-bar').find('.vjs-quality-container').remove();
-    // player.updateSrc([
-    //     // sources: [
-    //     {
-    //         label: convRes[0],
-    //         src: '/CONV/' + $(this).text() + '-ixi-' + convRes[0] + '.mp4',
-    //         type: 'video/mp4'
-    //     },
-    //     {
-    //         label: convRes[1],
-    //         src: '/CONV/' + $(this).text() + '-ixi-' + convRes[1] + '.mp4',
-    //         type: 'video/mp4'
-    //     },
-    //     {
-    //         label: convRes[2],
-    //         src: '/CONV/' + $(this).text() + '-ixi-' + convRes[2] + '.mp4',
-    //         type: 'video/mp4'
-    //     }
-    //     //   ],
-
-    //     //   onFormatSelected: function(format) {
-    //     //     console.log(format);
-    //     //   },
-    // ]);
-    // console.log($(this).text());
+    videoPlayer.src = filename;
+    videoPlayer.play();
 }).on('click', 'button', function () {
     console.log($(this));
     var fileName = $(this).parent().parent().children('.resumable-file-name').children('p').text();

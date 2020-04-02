@@ -1,39 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
 </head>
+
 <body>
-    <!-- <script src="/jquery/dist/jquery.min.js"></script> -->
-   
-     <div id="frame">
-       <section class=" player page-in">
-         <div class="media">
-             <video style="width:100%" id="videoplayer" class="video-js vjs-16-9 vjs-default-skin"
-                 poster="https://cdn.nuevodevel.com/media/video/animals.jpg" controls preload="none"
-                 playsinline>
-                 <source src="./statics/Pretty-Woman_-A-XXX-Parody_1.mp4" type="video/mp4">
-                <!-- <source media="(min-width: )" srcset="" sizes=""> -->
-                </video>
-         </div>
-     </section>
-       <div class="resumable-drop">
-         Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
-       </div>
-   
-       <div class="fileList">
-         <ul class="resumable-list"></ul>
-       </div>
-       <div class="footer"></div>
-     </div>
-     <div>
-       <div class="performance-result"></div>
-     </div>
-   
-    <script src="./bundle.js"></script>
+
+  <div id="frame">
+    <section class=" player page-in">
+      <div class="media">
+        <video style="width:100%; height: 500px;" id="videoplayer" class=""
+          poster="https://cdn.nuevodevel.com/media/video/animals.jpg" preload="none" muted playsinline>
+          <source src="./statics/Pretty-Woman_-A-XXX-Parody_1.mp4" type="video/mp4">
+        </video>
+        <div class="navigationBar">
+          <div class="navigationButtons">
+            <button class="play">PLAY<span></span></button>
+            <button class="pause">PAUSE</button>
+            <button class="stop">STOP</button>
+          </div>
+          <div class="navigationVolume"></div>
+          <div class="navigationTimer">
+                    <span class="currentTime">00:00</span>
+          <span class="totalTime">99:99</span>
+          </div>
+            </div>
+          <progress id="progress" max="100" value="25" style="width: 100%; height: 30px; border: none;">
+
+          </progress>
+      
+      </div>
+    </section>
+    <div class="resumable-drop">
+      Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
+    </div>
+
+    <div class="fileList">
+      <ul class="resumable-list"></ul>
+    </div>
+    <div class="footer"></div>
+  </div>
+  <div>
+    <div class="performance-result"></div>
+  </div>
+
+  <script src="./bundle.js"></script>
 
 </body>
+
 </html>

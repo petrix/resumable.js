@@ -22,6 +22,7 @@ app.use('/vjs-qCell', express.static(__dirname + '/node_modules/videojs-qualitys
 app.use('/vjs-RS', express.static(__dirname + '/node_modules/videojs-resolution-switcher/lib'));
 app.use('/vjs-playlist', express.static(__dirname + '/node_modules/videojs-playlist/dist'));
 app.use('/socket-io', express.static(__dirname + '/node_modules/socket.io-client/dist'));
+app.use('/afterglow', express.static(__dirname + '/node_modules/afterglowplayer/dist'));
 // node_modules\videojs-resolution-switcher\lib
 
 app.use(express.static(path.join(__dirname, Config.dirs.publicDir)));

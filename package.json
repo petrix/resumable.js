@@ -8,6 +8,7 @@
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@videojs/themes": "^1.0.0",
+    "afterglowplayer": "^1.1.0",
     "browserify": "^16.2.3",
     "connect-multiparty": "^2.2.0",
     "express": "^4.17.1",
@@ -27,9 +28,7 @@
     "videojs-playlist": "^4.3.1",
     "videojs-qualityselector": "0.0.4",
     "videojs-resolution-switcher": "^0.4.2",
-    "watchify": "^3.11.1"
-  },
-  "devDependencies": {
+    "watchify": "^3.11.1",
     "video.js": "^7.6.6"
   }
 }
