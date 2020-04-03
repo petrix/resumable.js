@@ -6,21 +6,29 @@ require('./styles/main.scss');
 var statePlaying = false;
 var statePaused = false;
 
-var io = require('socket.io-client');
-var sPath = window.location.hostname;
-var dirCountDownIO = io.connect('http://' + sPath + ':3333/');
+
+// var io = require('socket.io-client');
+// var sPath = window.location.hostname;
+// var dirCountDownIO = io.connect('http://' + sPath + ':3333/');
 
 
-dirCountDownIO.on('disconnect', (reason) => {
-    if (reason === 'io server disconnect') {
-        console.log('disconnected');
-    }
-});
+// dirCountDownIO.on('disconnect', (reason) => {
+//     if (reason === 'io server disconnect') {
+//         console.log('disconnected');
+//     }
+// });
 
 var videoPlayer = document.querySelector('#videoplayer');
 var progress = document.querySelector('#progress');
+const ranges = document.querySelectorAll('.navigationSliders')
 videoPlayer.ontimeupdate = progressUpdate;
 progress.onmousedown = videoPlayhead;
+// ranges.forEach(range => range.addEventListener('input change', handleRangeUpdate));
+
+ranges.forEach(range => range.addEventListener('input', handleRangeUpdate));
+ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
+// ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
+
 
 function progressUpdate() {
     var d = videoPlayer.duration;
@@ -44,7 +52,9 @@ function videoPlayhead() {
 
     }
 }
-
+function handleRangeUpdate(){
+    console.log(this.value);
+}
 function videoPlay() {
     if(!statePlaying){
         videoPlayer.play();
@@ -313,7 +323,10 @@ if (!r.support) {
             .parent().children(`.resumable-file-size`)
             .html(setFileSize(fileSizeValue)).parent() /* .parent() */
             .children(`.resumable-file-progress`)
-            .html(`<button class="convert${convRes[0]} ${file.uniqueIdentifier}">${convRes[0]}</button><button class="convert${convRes[1]} ${file.uniqueIdentifier}">${convRes[1]}</button><button class="remove ${file.uniqueIdentifier}">X</button>`);
+            .html(`<button class="convert${convRes[0]} ${file.uniqueIdentifier}">${convRes[0]}</button>
+            <button class="convert${convRes[1]} ${file.uniqueIdentifier}">${convRes[1]}</button>
+            <button class="convert${convRes[2]} ${file.uniqueIdentifier}">${convRes[2]}</button>
+            <button class="remove ${file.uniqueIdentifier}">X</button>`);
         // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;

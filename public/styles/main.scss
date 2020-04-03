@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Jura:400,700&display=swap&subset=cyrillic,cyrillic-ext');
 
 @import url('../fonts/DS-Digital.css');
-@import url('../styles/range.scss');
+// @import url('../styles/range.scss');
 
 
 
@@ -22,7 +22,7 @@ body {
     font: 1em/1.5 'Jura', Sans-serif;
     margin: 0;
     // background: rgb(63,94,251);
-    background: radial-gradient(circle, rgb(105, 105, 105) 0%, rgba(0,10,10,1) 100%);    
+    background: radial-gradient(circle, rgb(105, 105, 105) 0%, rgba(0, 10, 10, 1) 100%);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -549,7 +549,8 @@ button {
 .media {
     display: flex;
     flex-direction: column;
-    &>video{
+
+    &>video {
         width: 100%;
         max-height: 563px;
     }
@@ -572,11 +573,13 @@ button {
                 font-size: 20px;
                 font-weight: bold;
                 color: #000;
-                                &.play{
+
+                &.play {
                     background-color: green;
                     color: #fff;
                 }
-                &.playActive{
+
+                &.playActive {
                     background-color: brown;
                     color: #fff;
                 }
