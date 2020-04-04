@@ -20,7 +20,7 @@ var statePaused = false;
 
 var videoPlayer = document.querySelector('#videoplayer');
 var progress = document.querySelector('#progress');
-const ranges = document.querySelectorAll('.navigationSliders')
+const ranges = document.querySelectorAll('.navigationSliders');
 videoPlayer.ontimeupdate = progressUpdate;
 progress.onmousedown = videoPlayhead;
 // ranges.forEach(range => range.addEventListener('input change', handleRangeUpdate));
@@ -35,7 +35,10 @@ function progressUpdate() {
     var c = videoPlayer.currentTime;
     var val = (100 * c) / d;
     // console.log(c, d, val);
-    progress.value = val;
+    if(val > 0){
+          progress.value = val;
+  
+    }
     $('.currentTime').html(timeToTC(c));
     $('.totalTime').html(timeToTC(d));
 }
@@ -43,7 +46,7 @@ function progressUpdate() {
 function videoPlayhead() {
     var w = this.offsetWidth;
     var o = event.offsetX;
-    console.log(o, w)
+    console.log(o, w);
     this.value = 100 * o / w;
     videoPlayer.pause();
     videoPlayer.currentTime = videoPlayer.duration * (o / w);
@@ -53,6 +56,12 @@ function videoPlayhead() {
     }
 }
 function handleRangeUpdate(){
+    if(this.name == 'volume'){
+        videoPlayer.volume = this.value;
+    }else if(this.name == 'playbackSpeed'){
+        videoPlayer.playbackRate = this.value;
+        
+    }
     console.log(this.value);
 }
 function videoPlay() {
