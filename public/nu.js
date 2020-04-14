@@ -1,5 +1,6 @@
 require('scssify');
 var $ = require('jquery');
+var tooltipster = require('tooltipster');
 var Resumable = require('./scripts/resumable');
 require('./styles/main.scss');
 // require('./fonts/DS-Digital.css');

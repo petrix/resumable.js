@@ -23,12 +23,13 @@
     "scssify": "^3.0.1",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.1.1",
+    "tooltipster": "^4.2.7",
+    "video.js": "^7.6.6",
     "videojs-contrib-quality-levels": "^2.0.9",
     "videojs-http-source-selector": "^1.1.6",
     "videojs-playlist": "^4.3.1",
     "videojs-qualityselector": "0.0.4",
     "videojs-resolution-switcher": "^0.4.2",
-    "watchify": "^3.11.1",
-    "video.js": "^7.6.6"
+    "watchify": "^3.11.1"
   }
 }

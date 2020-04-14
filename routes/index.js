@@ -1,6 +1,10 @@
 
-module.exports = function(app){
-// var io = require('socket.io')(http);
+module.exports = function(app, http){
+
+var io = require('socket.io')(http);
+io.on('connection', function (socket) {
+    console.log('a user connected');
+});
     const mainPageRoute = require('./main');
     app.get('/', mainPageRoute.get);
 
