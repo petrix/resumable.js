@@ -1,24 +1,61 @@
 var express = require('express');
 var app = express();
-
+var fs = require('fs');
 var path = require('path');
 const Config = require('./libs/config');
 // const common = require('./common');
 var multipart = require('connect-multiparty');
 // var multipartMiddleware = multipart();
 var crypto = require('crypto');
-// var http = require('http');
-var http = require('http').createServer(app);
+// var https = require('https');
+var https = require('https');
+// var cors = require('cors');
+var httpsPORT =process.env.PORT || 3333;
+var port = 3333;
+var httpsOptions = {
+  key: fs.readFileSync('./crt/server-key.pem'),
+  cert: fs.readFileSync('./crt/server-crt.pem')
+};
 
+
+
+
+// app.use(function (req, res, next) {
+//   var origins = [
+//       'https://localhost:3333',
+//       'https://127.0.0.1:5502',
+//       'https://o.bratan.ooo',
+//       'https://bratan.ooo'
+//   ];
+
+//   for(var i = 0; i < origins.length; i++){
+//       var origin = origins[i];
+
+//       if(req.headers.origin.indexOf(origin) > -1){
+//           res.header('Access-Control-Allow-Origin', req.headers.origin);
+//       }
+//   }
+  
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  
+//   // res.header("Access-Control-Allow-Methods", "GET, POST");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
+
+var secureServer = https.createServer(httpsOptions, app).listen(httpsPORT, function () {
+  console.log('HTTPS Server Listener Started:'.bold, httpsPORT);
+});
 
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5502');
+  res.setHeader('Access-Control-Allow-Origin', 'https://o.bratan.ooo');
   // res.setHeader('Access-Control-Allow-Origin', 'https://bratan.ooo');
 
   // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
   // Request headers you wish to allow
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -30,7 +67,7 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-
+// app.use(cors());
 
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui-dist'));
@@ -50,7 +87,7 @@ app.use(Config.proxyLink, express.static(path.join(__dirname, Config.dirs.conver
 app.use(multipart());
 // app.use(common.commonMiddlew);
 // require('./routes')(app);
-require('./routes')(app, http);
+require('./routes')(app, https);
 // Uncomment to allow CORS
 // app.use(function (req, res, next) {
 //    res.header('Access-Control-Allow-Origin', '*');
@@ -63,7 +100,9 @@ require('./routes')(app, http);
 //   res.setHeader("content-type", "application/javascript");
 //   fs.createReadStream("./resumable.js").pipe(res);
 // });
-var port = 3333;
-app.listen(port, function () {
-  console.log(`Example app listening on port ${port}!`);
-});
+
+
+
+// app.listen(port, function () {
+//   console.log(`Example app listening on port ${port}!`);
+// });

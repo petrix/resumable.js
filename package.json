@@ -11,6 +11,7 @@
     "afterglowplayer": "^1.1.0",
     "browserify": "^16.2.3",
     "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "ffmpeg-on-progress": "^1.0.0",
     "fluent-ffmpeg": "^2.1.2",
