@@ -2,24 +2,24 @@ const fs = require('fs');
 const path = require('path');
 // const ffmpeg = require('ffmpeg');
 
-var ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-var ffmpeg = require('fluent-ffmpeg'),
-    ffmpegOnProgress = require('ffmpeg-on-progress');
-ffmpeg.setFfmpegPath(ffmpegPath);
+// var ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+// var ffmpeg = require('fluent-ffmpeg'),
+    // ffmpegOnProgress = require('ffmpeg-on-progress');
+// ffmpeg.setFfmpegPath(ffmpegPath);
 // var command = ffmpeg();
-const logProgress = (progress, event) => {
+// const logProgress = (progress, event) => {
     // progress is a floating point number from 0 to 1
-    console.log('progress', (progress * 100).toFixed(2))
-}
-  const executeFfmpeg = args => {
-    let command = ffmpeg().output(' '); // pass "Invalid output" validation
-    command._outputs[0].isFile = false; // disable adding "-y" argument
-    command._outputs[0].target = ""; // bypass "Unable to find a suitable output format for ' '"
-    command._global.get = () => { // append custom arguments
-        return typeof args === "string" ? args.split(' ') : args;
-    };
-    return command;
-};
+    // console.log('progress', (progress * 100).toFixed(2))
+// }
+//   const executeFfmpeg = args => {
+    // let command = ffmpeg().output(' '); // pass "Invalid output" validation
+    // command._outputs[0].isFile = false; // disable adding "-y" argument
+    // command._outputs[0].target = ""; // bypass "Unable to find a suitable output format for ' '"
+    // command._global.get = () => { // append custom arguments
+    //     return typeof args === "string" ? args.split(' ') : args;
+    // };
+    // return command;
+// };
 
 
 
