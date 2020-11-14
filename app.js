@@ -6,7 +6,6 @@ const Config = require('./libs/config');
 // const common = require('./common');
 var multipart = require('connect-multiparty');
 // var multipartMiddleware = multipart();
-var crypto = require('crypto');
 // var https = require('https');
 var https = require('https');
 // var cors = require('cors');
@@ -78,7 +77,6 @@ app.use('/vjs-RS', express.static(__dirname + '/node_modules/videojs-resolution-
 app.use('/vjs-playlist', express.static(__dirname + '/node_modules/videojs-playlist/dist'));
 app.use('/socket-io', express.static(__dirname + '/node_modules/socket.io-client/dist'));
 app.use('/afterglow', express.static(__dirname + '/node_modules/afterglowplayer/dist'));
-// node_modules\videojs-resolution-switcher\lib
 
 app.use(express.static(path.join(__dirname, Config.dirs.publicDir)));
 app.use(Config.filesLink, express.static(path.join(__dirname, Config.dirs.filesDir)));
