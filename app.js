@@ -52,7 +52,7 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-fileid?filename=
+// fileid?filename=
 app.get('/', cors(corsOptionsDelegate), function (req, res, next) {
   res.json({msg: 'This is CORS-enabled for an allowed domain.'})
 })
