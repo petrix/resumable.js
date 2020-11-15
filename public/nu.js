@@ -1,6 +1,6 @@
 require('scssify');
 var $ = require('jquery');
-var tooltipster = require('tooltipster');
+// var tooltipster = require('tooltipster');
 var Resumable = require('./scripts/resumable');
 require('./styles/main.scss');
 // require('./fonts/DS-Digital.css');
@@ -139,6 +139,7 @@ var setFileSize = function (fileSize) {
     if (fileSize.length > 9) return parseFloat(fileSize / 1024 / 1024 / 1024).toFixed(2) + ' GB';
     if (fileSize.length > 6) return parseFloat(fileSize / 1024 / 1024).toFixed(2) + ' MB';
     if (fileSize.length > 3) return parseFloat(fileSize / 1024).toFixed(2) + ' KB';
+    if (fileSize.length <= 3) return parseFloat(fileSize).toFixed(2) + ' Bytes';
 }
 
 var convRes = ['360p', '720p', '1080p'];
@@ -165,14 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     // var element = response[ii];
                     $('.resumable-list').append(`<li class='resumable-file-${fileID}'>
                 <span class='resumable-file-name'> 
-                <p href='/statics/${fileName}'>${fileName}</p>
+                <a href='/statics/${fileName}'>${fileName}</a>
                 </span>
                 <span class='resumable-file-size ${fileSize}'>${fileSize}</span>
                 <span class='resumable-file-progress'>
                 
-                <button class='convert${convRes[0]} convert${convRes[0]}-${fileID}'>${convRes[0]}</button>
-                <button class='convert${convRes[1]} convert${convRes[1]}-${fileID}'>${convRes[1]}</button>
-                <button class='convert${convRes[2]} convert${convRes[2]}-${fileID}'>${convRes[2]}</button>
+
                 <button class='remove ${fileID}'>X</button>
                 </span>
                                 
@@ -181,6 +180,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 </li>`);
 
                 }
+                // <button class='convert${convRes[0]} convert${convRes[0]}-${fileID}'>${convRes[0]}</button>
+                // <button class='convert${convRes[1]} convert${convRes[1]}-${fileID}'>${convRes[1]}</button>
+                // <button class='convert${convRes[2]} convert${convRes[2]}-${fileID}'>${convRes[2]}</button>
+
+                
 
                 fileNameArr = response;
                 // console.log(fileNameArr);
@@ -262,12 +266,12 @@ var r = new Resumable({
 });
 
 $('.resumable-list').on('click' || 'mousedown', 'p', function () {
-    var filename = "/CONV/" + $(this).text() + '-ixi-360p.mp4';
-    videoPlayer.src = filename;
-    videoPlayer.play();
+    // var filename = "/CONV/" + $(this).text() + '-ixi-360p.mp4';
+    // videoPlayer.src = filename;
+    // videoPlayer.play();
 }).on('click', 'button', function () {
     console.log($(this));
-    var fileName = $(this).parent().parent().children('.resumable-file-name').children('p').text();
+    var fileName = $(this).parent().parent().children('.resumable-file-name').children('a').text();
     console.log(fileName);
 
     if ($(this).hasClass('remove')) {
@@ -333,10 +337,11 @@ if (!r.support) {
             .parent().children(`.resumable-file-size`)
             .html(setFileSize(fileSizeValue)).parent() /* .parent() */
             .children(`.resumable-file-progress`)
-            .html(`<button class="convert${convRes[0]} ${file.uniqueIdentifier}">${convRes[0]}</button>
-            <button class="convert${convRes[1]} ${file.uniqueIdentifier}">${convRes[1]}</button>
-            <button class="convert${convRes[2]} ${file.uniqueIdentifier}">${convRes[2]}</button>
-            <button class="remove ${file.uniqueIdentifier}">X</button>`);
+            .html(''+
+        //    '<button class="convert${convRes[0]} ${file.uniqueIdentifier}">${convRes[0]}</button>'+
+        //     '<button class="convert${convRes[1]} ${file.uniqueIdentifier}">${convRes[1]}</button>'+
+        //     '<button class="convert${convRes[2]} ${file.uniqueIdentifier}">${convRes[2]}</button>'+
+            '<button class="remove ${file.uniqueIdentifier}">X</button>');
         // $('.resumable-file-' + file.uniqueIdentifier + ' .resumable-file-progress').html('(completed)');
         t1 = performance.now();
         var result = t1 - t0;
