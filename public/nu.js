@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     getFileNames();
-    getConvertedNames();
+    // getConvertedNames();
 
 });
 
