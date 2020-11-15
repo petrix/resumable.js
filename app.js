@@ -52,13 +52,13 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
-// fileid?filename=
-app.get('/fileid?filename=', cors(corsOptionsDelegate), function (req, res, next) {
+fileid?filename=
+app.get('/', cors(corsOptionsDelegate), function (req, res, next) {
   res.json({msg: 'This is CORS-enabled for an allowed domain.'})
 })
 app.post('/upload', cors(corsOptionsDelegate), function (req, res, next) {
   res.json({msg: 'This is CORS-enabled for an allowed domain.'})
-})
+});
 
 
 
@@ -67,26 +67,26 @@ var secureServer = https.createServer(httpsOptions, app).listen(httpsPORT, funct
   console.log('HTTPS Server Listener Started:', httpsPORT);
 });
 
-// app.use(function (req, res, next) {
+app.use(function (req, res, next) {
 
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', 'https://o.bratan.ooo');
-//   // res.setHeader('Access-Control-Allow-Origin', 'https://bratan.ooo');
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'https://o.bratan.ooo');
+  // res.setHeader('Access-Control-Allow-Origin', 'https://bratan.ooo');
 
-//   // Request methods you wish to allow
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-//   // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-//   // Request headers you wish to allow
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-//   // Set to true if you need the website to include cookies in the requests sent
-//   // to the API (e.g. in case you use sessions)
-//   res.setHeader('Access-Control-Allow-Credentials', true);
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
 
-//   // Pass to next layer of middleware
-//   next();
-// });
+  // Pass to next layer of middleware
+  next();
+});
 // app.use(cors());
 
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
