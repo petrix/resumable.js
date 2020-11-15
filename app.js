@@ -42,7 +42,7 @@ var httpsOptions = {
 //   next();
 // });
 
-var allowlist = ['https://o.bratan.ooo', 'https://bratan.ooo','http://127.0.0.1:5502']
+var allowlist = ['https://o.bratan.ooo', 'https://bratan.ooo','http://127.0.0.1:5502', 'https://p3xx.tk']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
