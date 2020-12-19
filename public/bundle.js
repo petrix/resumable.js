@@ -11061,51 +11061,79 @@ var convertedNameArr = [];
 document.addEventListener("DOMContentLoaded", function () {
 
     function getFileNames() {
-        var getfn = $.ajax({
-            type: "get",
-            url: "/getfn",
-            // async: false,
-            // url: "/upload",
-            data: "data",
-            dataType: "text",
-            success: function (response) {
-                response = JSON.parse(response);
-                console.log(response);
+        fetch(location.origin+'/getfn').then(res=> res.json()).then(response=>{
+            console.log(response);
 
-                for (let ii = 0; ii < response.length; ii++) {
-                    var fileName = response[ii].split('#')[0];
-                    var fileID = response[ii].split('#')[2];
-                    var fileSize = setFileSize(response[ii].split('#')[1]);
-                    // var element = response[ii];
-                    $('.resumable-list').append(`<li class='resumable-file-${fileID}'>
-                <span class='resumable-file-name'> 
-                <a href='/statics/${fileName}'>${fileName}</a>
-                </span>
-                <span class='resumable-file-size ${fileSize}'>${fileSize}</span>
-                <span class='resumable-file-progress'>
+            for (let ii = 0; ii < response.length; ii++) {
+                var fileName = response[ii].split('#')[0];
+                var fileID = response[ii].split('#')[2];
+                var fileSize = setFileSize(response[ii].split('#')[1]);
+                // var element = response[ii];
+                $('.resumable-list').append(`<li class='resumable-file-${fileID}'>
+            <span class='resumable-file-name'> 
+            <a href='/statics/${fileName}'>${fileName}</a>
+            </span>
+            <span class='resumable-file-size ${fileSize}'>${fileSize}</span>
+            <span class='resumable-file-progress'>
+            
+     <button class='convert${convRes[0]} convert${convRes[0]}-${fileID}'>${convRes[0]}</button>
+            <button class='convert${convRes[1]} convert${convRes[1]}-${fileID}'>${convRes[1]}</button>
+            <button class='convert${convRes[2]} convert${convRes[2]}-${fileID}'>${convRes[2]}</button>
+
+            <button class='remove ${fileID}'>X</button>
+            </span>
+                            
+
+            <div class='backgnd-status'></div>
+            </li>`);
+
+            }
+        })
+        // var getfn = $.ajax({
+        //     type: "get",
+        //     url: "/getfn",
+        //     // async: false,
+        //     // url: "/upload",
+        //     data: "data",
+        //     dataType: "text",
+        //     success: function (response) {
+        //         response = JSON.parse(response);
+        //         console.log(response);
+
+        //         for (let ii = 0; ii < response.length; ii++) {
+        //             var fileName = response[ii].split('#')[0];
+        //             var fileID = response[ii].split('#')[2];
+        //             var fileSize = setFileSize(response[ii].split('#')[1]);
+        //             // var element = response[ii];
+        //             $('.resumable-list').append(`<li class='resumable-file-${fileID}'>
+        //         <span class='resumable-file-name'> 
+        //         <a href='/statics/${fileName}'>${fileName}</a>
+        //         </span>
+        //         <span class='resumable-file-size ${fileSize}'>${fileSize}</span>
+        //         <span class='resumable-file-progress'>
                 
+        //  <button class='convert${convRes[0]} convert${convRes[0]}-${fileID}'>${convRes[0]}</button>
+        //         <button class='convert${convRes[1]} convert${convRes[1]}-${fileID}'>${convRes[1]}</button>
+        //         <button class='convert${convRes[2]} convert${convRes[2]}-${fileID}'>${convRes[2]}</button>
 
-                <button class='remove ${fileID}'>X</button>
-                </span>
+        //         <button class='remove ${fileID}'>X</button>
+        //         </span>
                                 
 
-                <div class='backgnd-status'></div>
-                </li>`);
+        //         <div class='backgnd-status'></div>
+        //         </li>`);
 
-                }
-                // <button class='convert${convRes[0]} convert${convRes[0]}-${fileID}'>${convRes[0]}</button>
-                // <button class='convert${convRes[1]} convert${convRes[1]}-${fileID}'>${convRes[1]}</button>
-                // <button class='convert${convRes[2]} convert${convRes[2]}-${fileID}'>${convRes[2]}</button>
-
+        //         }
+       
                 
 
-                fileNameArr = response;
-                // console.log(fileNameArr);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
-            }
-        });
+        //         fileNameArr = response;
+        //         // console.log(fileNameArr);
+        //     },
+        //     error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //         console.log('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText, textStatus, errorThrown);
+        //     }
+        // });
     }
 
     function getConvertedNames() {
@@ -11183,9 +11211,9 @@ $('.resumable-list').on('click' || 'mousedown', 'p', function () {
     // videoPlayer.src = filename;
     // videoPlayer.play();
 }).on('click', 'button', function () {
-    console.log($(this));
+    // console.log($(this));
     var fileName = $(this).parent().parent().children('.resumable-file-name').children('a').text();
-    console.log(fileName);
+    // console.log(fileName);
 
     if ($(this).hasClass('remove')) {
         $.get('/rmFile?filename=' + fileName, function (result) {
@@ -11246,7 +11274,7 @@ if (!r.support) {
         console.log(fileSizeValue);
         // Reflect that the file upload has completed
         $(`.resumable-file-${file.uniqueIdentifier}`).children(`.resumable-file-name`)
-            .html(`<p href="/statics/${file.fileName}">${file.fileName} </p>`)
+            .html(`<a href="/statics/${file.fileName}">${file.fileName} </a>`)
             .parent().children(`.resumable-file-size`)
             .html(setFileSize(fileSizeValue)).parent() /* .parent() */
             .children(`.resumable-file-progress`)

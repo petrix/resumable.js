@@ -3,13 +3,16 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node app.js",
-    "public": "watchify -t scssify public/nu.js -o public/bundle.js"
+    "watch": "watchify -t scssify public/nu.js -o public/bundle.js"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "browserify": "^16.2.3",
     "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "ffmpeg-on-progress": "^1.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "jquery": "^3.4.1",
     "jquery-ui-dist": "^1.12.1",
     "path": "^0.12.7",
