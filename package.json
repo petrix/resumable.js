@@ -6,21 +6,16 @@
     "watch": "watchify -t scssify public/nu.js -o public/bundle.js"
   },
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.0.20",
-    "browserify": "^16.2.3",
-    "connect-multiparty": "^2.2.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "ffmpeg-on-progress": "^1.0.0",
-    "fluent-ffmpeg": "^2.1.2",
-    "jquery": "^3.4.1",
-    "jquery-ui-dist": "^1.12.1",
-    "path": "^0.12.7",
-    "plyr": "^3.5.10",
-    "sassify": "^4.0.1",
-    "scssify": "^3.0.1",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.1.1",
-    "watchify": "^3.11.1"
+    "browserify": "latest",
+    "connect-multiparty": "latest",
+    "cors": "latest",
+    "express": "latest",
+    "jquery": "latest",
+    "path": "latest",
+    "plyr": "latest",
+    "scssify": "latest",
+    "socket.io": "latest",
+    "socket.io-client": "latest",
+    "watchify": "latest"
   }
 }
